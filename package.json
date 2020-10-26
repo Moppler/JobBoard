@@ -1,0 +1,21 @@
+{
+  "name": "@mattgibney/jobboard",
+  "version": "0.0.1",
+  "description": "This project is an open source Job Board. It's primary purpose is to serve as a training exercise.",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "node src/app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MattGibney/JobBoard.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MattGibney/JobBoard/issues"
+  },
+  "homepage": "https://github.com/MattGibney/JobBoard#readme"
+}
