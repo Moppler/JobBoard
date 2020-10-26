@@ -1,12 +1,11 @@
 const express = require('express');
-const package = require('../package.json');
+const config = require('../config/environment');
 const app = express();
-const port = 3000;
 
 app.get('/', (req, res) => {
-  res.send({ version: package.version });
+  res.send({ version: config.version });
 });
 
-app.listen(port, () => {
-  console.log(`Job Board server listening on http://localhost:${port}`);
+app.listen(config.port, () => {
+  console.log(`Job Board server listening on http://localhost:${config.port}`);
 });
