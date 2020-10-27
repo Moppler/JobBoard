@@ -4,7 +4,7 @@
   "description": "This project is an open source Job Board. It's primary purpose is to serve as a training exercise.",
   "main": "src/app.js",
   "scripts": {
-    "start": "node src/app.js",
+    "start": "nodemon src/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -17,5 +17,11 @@
   "bugs": {
     "url": "https://github.com/MattGibney/JobBoard/issues"
   },
-  "homepage": "https://github.com/MattGibney/JobBoard#readme"
+  "homepage": "https://github.com/MattGibney/JobBoard#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.6"
+  }
 }
