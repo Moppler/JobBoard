@@ -3,21 +3,21 @@ const sinon = require('sinon');
 
 const healthcheckController = require('../../src/controllers/healthcheck');
 
-describe('Controller: healthcheck', function() {
-  describe('fetchHealthcheck', function() {
-    it('Responds with a 200 status and the correct version', function() {
+describe('Controller: healthcheck', function () {
+  describe('fetchHealthcheck', function () {
+    it('Responds with a 200 status and the correct version', function () {
       const stubStatus = sinon.stub();
       const stubJson = sinon.stub();
 
       const mockRequest = {
         Config: {
-          version: 'TESTVERSION'
-        }
+          version: 'TESTVERSION',
+        },
       };
       const mockResponse = {
         status: stubStatus.returns({
-          json: stubJson
-        })
+          json: stubJson,
+        }),
       };
 
       healthcheckController.fetchHealthcheck(mockRequest, mockResponse);
