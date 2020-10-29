@@ -5,7 +5,7 @@ training exercise.
 
 ## Getting Started
 
-1. Clone the repo `git clone https://github.com/MattGibney/JobBoard.git`
+1. Clone the repo `git clone git@github.com:MattGibney/JobBoard.git`
 2. cd into repo
 3. Install deps `npm i`
 4. Start dev server `npm start`
