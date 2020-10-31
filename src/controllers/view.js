@@ -12,16 +12,7 @@ module.exports = {
    * @param {*} res
    */
   async listAllJobs(req, res) {
-    const jobs = [
-      {
-        title: 'Test Title',
-        location: 'London',
-        salary: '£50,000',
-        jobType: 'Permanent',
-        summary: 'Lorem ipsum dolor sit amet.',
-        datePosted: new Date().toDateString(),
-      },
-    ];
+    const jobs = await req.ModelFactory.job.fetchAllJobs();
     return await res.render('listJobs', {
       jobs,
     });
