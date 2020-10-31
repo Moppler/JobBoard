@@ -8,6 +8,18 @@ module.exports = {
    * @param {*} res
    */
   async listAllJobs(req, res) {
-    return await res.render('listJobs');
+    const jobs = [
+      {
+        title: 'Test Title',
+        location: 'London',
+        salary: '£50,000',
+        jobType: 'Permanent',
+        summary: 'Lorem ipsum dolor sit amet.',
+        datePosted: new Date().toDateString(),
+      },
+    ];
+    return await res.render('listJobs', {
+      jobs,
+    });
   },
 };
