@@ -1,4 +1,6 @@
 const express = require('express');
+const exphbs = require('express-handlebars');
+
 const config = require('../config/environment');
 const app = express();
 
@@ -13,6 +15,9 @@ app.use((req, res, next) => {
   req.Config = config;
   next();
 });
+
+app.engine('.hbs', exphbs({ extname: '.hbs' }));
+app.set('view engine', '.hbs');
 
 app.use(router);
 
