@@ -2,7 +2,7 @@ const express = require('express');
 const config = require('../config/environment');
 const app = express();
 
-const healthcheckController = require('./controllers/healthcheck');
+const router = require('./router');
 
 /**
  * Adding the config to the request object here makes it available across ALL
@@ -14,7 +14,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get('/healthcheck', healthcheckController.fetchHealthcheck);
+app.use(router);
 
 app.listen(config.port, () => {
   console.log(`Job Board server listening on http://localhost:${config.port}`);

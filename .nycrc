@@ -5,7 +5,9 @@
     "src/**/*.js"
   ],
   "exclude": [
-    "src/app.js"
+    "src/app.js",
+    "src/router.js",
+    "src/routes/**/*.js"
   ],
   "branches": 90,
   "lines": 90,
