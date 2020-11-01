@@ -12,7 +12,10 @@ module.exports = {
    * @param {*} res
    */
   async listAllJobs(req, res) {
-    const jobs = await req.ModelFactory.job.fetchAllJobs();
+    const jobs = await req.ModelFactory.job.fetchAllJobs(
+      req.ModelFactory,
+      req.DaoFactory
+    );
     return await res.render('listJobs', {
       jobs,
     });

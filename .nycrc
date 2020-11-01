@@ -8,6 +8,7 @@
     "src/app.js",
     "src/router.js",
     "src/modelFactory.js",
+    "src/daoFactory.js",
     "src/routes/**/*.js"
   ],
   "branches": 90,

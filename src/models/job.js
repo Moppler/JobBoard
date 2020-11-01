@@ -1,3 +1,8 @@
+/**
+ * @typedef {import('../modelFactory')} ModelFactory
+ * @typedef {import('../daoFactory')} DaoFactory
+ */
+
 class JobModel {
   constructor(jobData) {
     this.title = jobData.title;
@@ -8,18 +13,20 @@ class JobModel {
     this.datePosted = jobData.datePosted;
   }
 
-  static async fetchAllJobs() {
-    const mockJobData = [
-      {
-        title: 'Test Title',
-        location: 'London',
-        salary: '£50,000',
-        jobType: 'Permanent',
-        summary: 'Lorem ipsum dolor sit amet.',
-        datePosted: new Date().toDateString(),
-      },
-    ];
-    return mockJobData.map((jobData) => new JobModel(jobData));
+  /**
+   * Fetches all jobs from the system and returns new instances of the JobModel
+   * for each. When there are no jobs, it returns an empty array. On error, it
+   * returns null.
+   *
+   * @param {ModelFactory} ModelFactory - instance of
+   * @param {DaoFactory} DaoFactory - instance of
+   * @returns {Promise<JobModel[]|null>} Array of JobModel Objects. Null on error.
+   */
+  static async fetchAllJobs(ModelFactory, DaoFactory) {
+    const jobsData = await DaoFactory.job.fetchAllJobs();
+    if (!jobsData) return null;
+
+    return jobsData.map((jobData) => new JobModel(jobData));
   }
 }
 

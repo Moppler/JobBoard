@@ -2,6 +2,7 @@
  * @typedef {object} _JobBoardRequest
  * @property {import('../config/environment')} Config - App Config
  * @property {import('./modelFactory')} ModelFactory - Instance of
+ * @property {import('./daoFactory')} DaoFactory - Instance of
  */
 
 /**
@@ -16,6 +17,7 @@ const app = express();
 
 const router = require('./router');
 const ModelFactory = require('./modelFactory');
+const DaoFactory = require('./daoFactory');
 
 /**
  * Adding the config to the request object here makes it available across ALL
@@ -31,6 +33,7 @@ app.use(
   (req, res, next) => {
     req.Config = config;
     req.ModelFactory = ModelFactory;
+    req.DaoFactory = DaoFactory;
     next();
   }
 );
