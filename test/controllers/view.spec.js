@@ -7,8 +7,15 @@ describe('Controller: view', function () {
   describe('listAllJobs', function () {
     it('renders the correct template', async function () {
       const stubRender = sinon.stub();
+      const mockJobModel = {
+        fetchAllJobs: sinon.stub().resolves([]),
+      };
 
-      const mockRequest = {};
+      const mockRequest = {
+        ModelFactory: {
+          job: mockJobModel,
+        },
+      };
       const mockResponse = {
         render: stubRender,
       };

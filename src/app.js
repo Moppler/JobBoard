@@ -24,11 +24,16 @@ const ModelFactory = require('./modelFactory');
  *
  * The ModelFactory provides an easy way to access the application's models.
  */
-app.use((req, res, next) => {
-  req.Config = config;
-  req.ModelFactory = ModelFactory;
-  next();
-});
+app.use(
+  /**
+   * @param {JBRequest} req
+   */
+  (req, res, next) => {
+    req.Config = config;
+    req.ModelFactory = ModelFactory;
+    next();
+  }
+);
 
 app.engine('.hbs', exphbs({ extname: '.hbs' }));
 app.set('view engine', '.hbs');

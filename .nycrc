@@ -7,6 +7,7 @@
   "exclude": [
     "src/app.js",
     "src/router.js",
+    "src/modelFactory.js",
     "src/routes/**/*.js"
   ],
   "branches": 90,
