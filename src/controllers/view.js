@@ -1,5 +1,7 @@
 /**
  * @typedef {import('../app').JBRequest} JBRequest
+ *
+ * @typedef {import('../models/job')} JobModel
  */
 
 module.exports = {
@@ -16,8 +18,11 @@ module.exports = {
       req.ModelFactory,
       req.DaoFactory
     );
-    const sortedJobs = jobs.sort((a, b) => b.datePosted - a.datePosted);
+    const sortedJobs = jobs.sort(
+      (a, b) => b.datePosted.toMillis() - a.datePosted.toMillis()
+    );
     return await res.render('listJobs', {
+      /** @type {JobModel[]} */
       jobs: sortedJobs,
     });
   },

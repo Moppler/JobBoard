@@ -20,7 +20,7 @@ class JobModel {
     /** @type {string} */
     this.summary = jobData.summary;
 
-    /** @type {Date} */
+    /** @type {import('luxon').DateTime} */
     this.datePosted = jobData.datePosted;
   }
 
