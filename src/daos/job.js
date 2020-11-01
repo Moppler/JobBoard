@@ -7,7 +7,7 @@ class JobDao {
         salary: '£50,000',
         jobType: 'Permanent',
         summary: 'Lorem ipsum dolor sit amet.',
-        datePosted: new Date().toDateString(),
+        datePosted: new Date(),
       },
     ];
     return mockJobData;

@@ -5,11 +5,22 @@
 
 class JobModel {
   constructor(jobData) {
+    /** @type {string} */
     this.title = jobData.title;
+
+    /** @type {string} */
     this.location = jobData.location;
+
+    /** @type {string} */
     this.salary = jobData.salary;
+
+    /** @type {string} */
     this.jobType = jobData.jobType;
+
+    /** @type {string} */
     this.summary = jobData.summary;
+
+    /** @type {Date} */
     this.datePosted = jobData.datePosted;
   }
 

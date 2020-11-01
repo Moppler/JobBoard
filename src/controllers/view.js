@@ -16,8 +16,9 @@ module.exports = {
       req.ModelFactory,
       req.DaoFactory
     );
+    const sortedJobs = jobs.sort((a, b) => b.datePosted - a.datePosted);
     return await res.render('listJobs', {
-      jobs,
+      jobs: sortedJobs,
     });
   },
 };
