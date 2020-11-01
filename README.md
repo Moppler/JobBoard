@@ -9,3 +9,10 @@ training exercise.
 2. cd into repo
 3. Install deps `npm i`
 4. Start dev server `npm start`
+
+## Frontend
+
+The front end of this application is currently rendered serverside using
+Handlebars templates. This may change in the future with a migration to a
+separate front end architecture, that's a little over kill for now though. Front
+end uses [Bootstrap 5](https://v5.getbootstrap.com/docs/5.0/) beta.
