@@ -5,6 +5,9 @@
 
 class JobModel {
   constructor(jobData) {
+    /** @type {number} */
+    this.id = jobData.id;
+
     /** @type {string} */
     this.title = jobData.title;
 
@@ -19,6 +22,9 @@ class JobModel {
 
     /** @type {string} */
     this.summary = jobData.summary;
+
+    /** @type {string} */
+    this.description = jobData.description;
 
     /** @type {import('luxon').DateTime} */
     this.datePosted = jobData.datePosted;
@@ -38,6 +44,22 @@ class JobModel {
     if (!jobsData) return null;
 
     return jobsData.map((jobData) => new JobModel(jobData));
+  }
+
+  /**
+   * Fetches a specific job based on the supplied job itentifier and returns an
+   * instance of the JobModel. If the job does not exist, null is returned.
+   *
+   * @param {ModelFactory} ModelFactory - Instance of
+   * @param {DaoFactory} DaoFactory - Instance of
+   * @param {number} jobId - Identifier of the desired job record.
+   * @returns {Promise<JobModel|null>} Instance of JobModel. Null on error.
+   */
+  static async fetchById(ModelFactory, DaoFactory, jobId) {
+    const jobData = await DaoFactory.job.fetchJobById(jobId);
+    if (!jobData) return null;
+
+    return new JobModel(jobData);
   }
 }
 

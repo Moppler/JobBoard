@@ -60,4 +60,36 @@ describe('Controller: view', function () {
       );
     });
   });
+  describe('viewJob', function () {
+    it('renders the correct template', async function () {
+      const stubRender = sinon.stub();
+      const mockJobModel = {
+        fetchById: sinon.stub().resolves({
+          id: 1,
+          title: '',
+          location: '',
+          salary: '',
+          jobType: '',
+          description: '',
+          datePosted: DateTime.local(),
+        }),
+      };
+
+      const mockRequest = {
+        params: {
+          jobId: 1,
+        },
+        ModelFactory: {
+          job: mockJobModel,
+        },
+      };
+      const mockResponse = {
+        render: stubRender,
+      };
+
+      await viewController.viewJob(mockRequest, mockResponse);
+
+      assert.strictEqual(stubRender.getCall(0).args[0], 'viewJob');
+    });
+  });
 });

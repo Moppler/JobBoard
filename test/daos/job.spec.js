@@ -12,4 +12,13 @@ describe('Dao: Job', function () {
       assert.isArray(jobData);
     });
   });
+  describe('fetchJobById', function () {
+    it('responds with the requested record', async function () {
+      const dao = new JobDao();
+
+      const jobData = await dao.fetchJobById(1);
+
+      assert.equal(jobData.id, 1);
+    });
+  });
 });
