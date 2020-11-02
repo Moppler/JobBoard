@@ -20,9 +20,12 @@
   },
   "homepage": "https://github.com/MattGibney/JobBoard#readme",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "express-handlebars": "^5.2.0",
+    "luxon": "^1.25.0"
   },
   "devDependencies": {
+    "chai": "^4.2.0",
     "eslint": "^7.12.1",
     "eslint-plugin-prettier": "^3.1.4",
     "mocha": "^8.2.0",

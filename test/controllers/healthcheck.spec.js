@@ -1,4 +1,4 @@
-const assert = require('assert');
+const assert = require('chai').assert;
 const sinon = require('sinon');
 
 const healthcheckController = require('../../src/controllers/healthcheck');
