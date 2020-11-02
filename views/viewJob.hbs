@@ -1,0 +1,25 @@
+<div class="container mt-5">
+
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="/">Jobs</a></li>
+      <li class="breadcrumb-item active" aria-current="page">{{job.id}}</li>
+    </ol>
+  </nav>
+
+  <h1>{{job.title}}</h1>
+  <hr>
+  <div class="d-flex">
+    <div class="mr-5">
+      <p><span class="text-muted">Location:</span> <strong>{{job.location}}</strong></p>
+      <p class="mb-0"><span class="text-muted">Salary:</span> <strong>{{job.salary}}</strong></p>
+    </div>
+    <div>
+      <p><span class="text-muted">Job Type:</span> <strong>{{job.jobType}}</strong></p>
+      <p class="mb-0"><span class="text-muted">Date Posted:</span> <strong>{{job.datePosted}}</strong></p>
+    </div>
+  </div>
+  <hr>
+
+  {{job.description}}
+</div>

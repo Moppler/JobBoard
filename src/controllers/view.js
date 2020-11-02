@@ -26,4 +26,30 @@ module.exports = {
       jobs: sortedJobs,
     });
   },
+
+  /**
+   * Renders specific details about a job.
+   *
+   * @param {JBRequest} req
+   * @param {*} res
+   */
+  async viewJob(req, res) {
+    const jobId = parseInt(req.params.jobId);
+    const job = await req.ModelFactory.job.fetchById(
+      req.ModelFactory,
+      req.DaoFactory,
+      jobId
+    );
+    return await res.render('viewJob', {
+      job: {
+        id: job.id,
+        title: job.title,
+        location: job.location,
+        salary: job.salary,
+        jobType: job.jobType,
+        description: job.description,
+        datePosted: job.datePosted.toFormat('DDD'),
+      },
+    });
+  },
 };

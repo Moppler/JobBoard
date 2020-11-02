@@ -10,7 +10,16 @@ describe('Model: Job', function () {
 
       assert.deepStrictEqual(
         Object.keys(job),
-        ['title', 'location', 'salary', 'jobType', 'summary', 'datePosted'],
+        [
+          'id',
+          'title',
+          'location',
+          'salary',
+          'jobType',
+          'summary',
+          'description',
+          'datePosted',
+        ],
         ''
       );
     });
@@ -58,6 +67,37 @@ describe('Model: Job', function () {
         const jobs = await JobModel.fetchAllJobs({}, mockDaoFactory);
 
         assert.strictEqual(jobs, null, 'Returns null on error');
+      });
+    });
+    describe('fetchById', function () {
+      it('returns an instance of the JobModel', async function () {
+        const mockDaoFactory = {
+          job: {
+            fetchJobById: sinon.stub().resolves({
+              id: 1,
+              title: 'Test Title',
+              location: 'London',
+              salary: '£50,000',
+              jobType: 'Temporary',
+              summary: 'Lorem ipsum',
+              description: '',
+              datePosted: '',
+            }),
+          },
+        };
+        const job = await JobModel.fetchById({}, mockDaoFactory, 1);
+
+        assert.ok(job instanceof JobModel, 'Instance of JobModel is returned');
+      });
+      it('returns null when the job does not exist', async function () {
+        const mockDaoFactory = {
+          job: {
+            fetchJobById: sinon.stub().resolves(null),
+          },
+        };
+        const job = await JobModel.fetchById({}, mockDaoFactory, 2);
+
+        assert.equal(job, null, 'null is returned');
       });
     });
   });
