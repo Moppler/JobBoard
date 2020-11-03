@@ -18,6 +18,11 @@ const app = express();
 const router = require('./router');
 const ModelFactory = require('./modelFactory');
 const DaoFactory = require('./daoFactory');
+const StoreFactory = require('./storeFactory');
+
+const storeFactory = new StoreFactory(/* config */);
+const modelFactory = ModelFactory;
+const daoFactory = new DaoFactory(storeFactory);
 
 /**
  * Adding the config to the request object here makes it available across ALL
@@ -32,8 +37,8 @@ app.use(
    */
   (req, res, next) => {
     req.Config = config;
-    req.ModelFactory = ModelFactory;
-    req.DaoFactory = DaoFactory;
+    req.ModelFactory = modelFactory;
+    req.DaoFactory = daoFactory;
     next();
   }
 );
