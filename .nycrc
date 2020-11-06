@@ -10,7 +10,8 @@
     "src/modelFactory.js",
     "src/daoFactory.js",
     "src/storeFactory.js",
-    "src/routes/**/*.js"
+    "src/routes/**/*.js",
+    "src/stores/job.js"
   ],
   "branches": 90,
   "lines": 90,
