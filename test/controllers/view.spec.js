@@ -9,6 +9,8 @@ describe('Controller: view', function () {
   describe('listAllJobs', function () {
     it('renders the correct template', async function () {
       const stubRender = sinon.stub();
+      const stubStatus = sinon.stub();
+
       const mockJobModel = {
         fetchAllJobs: sinon.stub().resolves([]),
       };
@@ -19,7 +21,9 @@ describe('Controller: view', function () {
         },
       };
       const mockResponse = {
-        render: stubRender,
+        status: stubStatus.returns({
+          render: stubRender,
+        }),
       };
 
       await viewController.listAllJobs(mockRequest, mockResponse);
@@ -47,8 +51,12 @@ describe('Controller: view', function () {
       };
 
       const stubRender = sinon.stub();
+      const stubStatus = sinon.stub();
+
       const mockResponse = {
-        render: stubRender,
+        status: stubStatus.returns({
+          render: stubRender,
+        }),
       };
 
       await viewController.listAllJobs(mockRequest, mockResponse);
@@ -63,6 +71,8 @@ describe('Controller: view', function () {
   describe('viewJob', function () {
     it('renders the correct template', async function () {
       const stubRender = sinon.stub();
+      const stubStatus = sinon.stub();
+
       const mockJobModel = {
         fetchById: sinon.stub().resolves({
           id: 1,
@@ -84,7 +94,9 @@ describe('Controller: view', function () {
         },
       };
       const mockResponse = {
-        render: stubRender,
+        status: stubStatus.returns({
+          render: stubRender,
+        }),
       };
 
       await viewController.viewJob(mockRequest, mockResponse);
