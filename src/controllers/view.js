@@ -21,7 +21,7 @@ module.exports = {
     const sortedJobs = jobs.sort(
       (a, b) => b.datePosted.toMillis() - a.datePosted.toMillis()
     );
-    return await res.render('listJobs', {
+    return await res.status(200).render('listJobs', {
       /** @type {JobModel[]} */
       jobs: sortedJobs,
     });
@@ -40,7 +40,7 @@ module.exports = {
       req.DaoFactory,
       jobId
     );
-    return await res.render('viewJob', {
+    return await res.status(200).render('viewJob', {
       job: {
         id: job.id,
         title: job.title,
