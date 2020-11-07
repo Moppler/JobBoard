@@ -1,0 +1,14 @@
+version: '3.7'
+x-enviroment: &commonEnviroment
+  http_proxy: ${http_proxy}
+services:
+  app:
+    build: .
+    container_name: jobBoard_api
+    init: true
+    volumes:
+      - '.:/usr/src/app' # map everything to host so nodemon restarts on changes
+      - /usr/src/app/node_modules/
+    ports:
+      - '3100:3100'
+    environment: *commonEnviroment
