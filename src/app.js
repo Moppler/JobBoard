@@ -20,7 +20,9 @@ const ModelFactory = require('./modelFactory');
 const DaoFactory = require('./daoFactory');
 const StoreFactory = require('./storeFactory');
 
-const storeFactory = new StoreFactory(/* config */);
+const knex = require('knex')(config.database);
+
+const storeFactory = new StoreFactory(knex);
 const modelFactory = ModelFactory;
 const daoFactory = new DaoFactory(storeFactory);
 
