@@ -36,7 +36,11 @@ describe('Dao: Job', function () {
   describe('fetchAllJobs', function () {
     it('Resolves an array of job data', async function () {
       const mockJobStore = {
-        fetchAllJobs: sinon.stub().returns([]),
+        fetchAllJobs: sinon.stub().returns([
+          {
+            id: 1,
+          },
+        ]),
       };
 
       const dao = new JobDao(mockJobStore);
