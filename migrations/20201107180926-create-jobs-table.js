@@ -12,7 +12,7 @@ CREATE TABLE jobs (
   "description" text NOT NULL,
   "date_posted" timestamp(6) with time zone NOT NULL,
   "created_time" timestamp(6) with time zone NOT NULL DEFAULT now(),
-  "updated_time" timestamp(6) with time zone NOT NULL DEFAULT now()
+  "updated_time" timestamp(6) with time zone NOT NULL DEFAULT now(),
   PRIMARY KEY ("id")
 );
 
