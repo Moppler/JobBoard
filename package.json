@@ -4,6 +4,7 @@
   "description": "This project is an open source Job Board. It's primary purpose is to serve as a training exercise.",
   "main": "src/app.js",
   "scripts": {
+    "prestart": "db-migrate up",
     "start": "nodemon src/app.js",
     "test": "nyc --reporter=lcov mocha -R spec --recursive",
     "watch:test": "nodemon --exec npm t"
@@ -22,13 +23,19 @@
   "dependencies": {
     "express": "^4.17.1",
     "express-handlebars": "^5.2.0",
-    "luxon": "^1.25.0"
+    "knex": "^0.21.12",
+    "luxon": "^1.25.0",
+    "pg": "^8.4.2"
   },
   "devDependencies": {
+    "@types/luxon": "^1.25.0",
+    "@types/node": "^14.14.6",
     "chai": "^4.2.0",
+    "db-migrate": "^0.11.11",
+    "db-migrate-pg": "^1.2.2",
     "eslint": "^7.12.1",
     "eslint-plugin-prettier": "^3.1.4",
-    "mocha": "^8.2.0",
+    "mocha": "^8.2.1",
     "mocha-eslint": "^6.0.0",
     "nodemon": "^2.0.6",
     "nyc": "^15.1.0",

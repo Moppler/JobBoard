@@ -1,9 +1,16 @@
 /**
  * @typedef {import('../modelFactory')} ModelFactory
  * @typedef {import('../daoFactory')} DaoFactory
+ *
+ * @typedef {import('../daos/job').JobData} JobData
  */
 
 class JobModel {
+  /**
+   * Creates a new instance of JobModel.
+   *
+   * @param {JobData} jobData
+   */
   constructor(jobData) {
     /** @type {number} */
     this.id = jobData.id;

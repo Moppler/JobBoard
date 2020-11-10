@@ -1,0 +1,27 @@
+version: '3.7'
+x-enviroment: &commonEnviroment
+  POSTGRES_USER: ${POSTGRES_USER}
+  POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+  POSTGRES_DB: ${POSTGRES_DB}
+  DATABASE_URL: ${DATABASE_URL}
+  http_proxy: ${http_proxy}
+services:
+  app:
+    build: .
+    container_name: jobBoard_api
+    depends_on:
+      - postgres
+    init: true
+    volumes:
+      - '.:/usr/src/app' # map everything to host so nodemon restarts on changes
+      - /usr/src/app/node_modules/
+    ports:
+      - '3100:3100'
+    environment: *commonEnviroment
+  postgres:
+    image: postgres:11.5-alpine # latest available RDS version
+    container_name: jobBoard_db
+    restart: always
+    ports:
+      - '5432:5432' # make postgres available to host on port 5433, avoid any natively-installed pg
+    environment: *commonEnviroment

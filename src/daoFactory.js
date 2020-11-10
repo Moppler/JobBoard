@@ -24,8 +24,19 @@
  * it's concerned, there is no change.
  */
 
-const jobDao = require('./daos/job');
+/**
+ * @typedef {import('./storeFactory')} StoreFactory
+ */
 
-module.exports = {
-  job: new jobDao(),
-};
+const JobDao = require('./daos/job');
+
+class DaoFactory {
+  /**
+   * @param {StoreFactory} StoreFactory - Instance of
+   */
+  constructor(StoreFactory) {
+    this.job = new JobDao(StoreFactory.job);
+  }
+}
+
+module.exports = DaoFactory;
