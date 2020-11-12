@@ -9,9 +9,17 @@ class JobModel {
   /**
    * Creates a new instance of JobModel.
    *
+   * @param {ModelFactory} ModelFactory
+   * @param {DaoFactory} DaoFactory
    * @param {JobData} jobData
    */
-  constructor(jobData) {
+  constructor(ModelFactory, DaoFactory, jobData) {
+    /** @type {ModelFactory} */
+    this.ModelFactory = ModelFactory;
+
+    /** @type {DaoFactory} */
+    this.DaoFactory = DaoFactory;
+
     /** @type {number} */
     this.id = jobData.id;
 
@@ -50,7 +58,9 @@ class JobModel {
     const jobsData = await DaoFactory.job.fetchAllJobs();
     if (!jobsData) return null;
 
-    return jobsData.map((jobData) => new JobModel(jobData));
+    return jobsData.map(
+      (jobData) => new JobModel(ModelFactory, DaoFactory, jobData)
+    );
   }
 
   /**
@@ -66,7 +76,7 @@ class JobModel {
     const jobData = await DaoFactory.job.fetchJobById(jobId);
     if (!jobData) return null;
 
-    return new JobModel(jobData);
+    return new JobModel(ModelFactory, DaoFactory, jobData);
   }
 }
 

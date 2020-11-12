@@ -31,12 +31,14 @@ describe('Controller: view', function () {
       assert.strictEqual(stubRender.getCall(0).args[0], 'listJobs');
     });
     it('Sorts jobs by date, newest first', async function () {
+      const mockModelFactory = sinon.stub();
+      const mockDaoFactory = sinon.stub();
       const mockJobs = [
-        new JobModel({
+        new JobModel(mockModelFactory, mockDaoFactory, {
           title: 'job 1',
           datePosted: DateTime.local(2020, 1, 1),
         }),
-        new JobModel({
+        new JobModel(mockModelFactory, mockDaoFactory, {
           title: 'job 2',
           datePosted: DateTime.local(2020, 1, 2),
         }),

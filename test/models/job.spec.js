@@ -6,11 +6,15 @@ const JobModel = require('../../src/models/job');
 describe('Model: Job', function () {
   describe('constructor', function () {
     it('Has all the expected keys', function () {
-      const job = new JobModel({});
+      const mockModelFactory = sinon.stub();
+      const mockDaoFactory = sinon.stub();
+      const job = new JobModel(mockModelFactory, mockDaoFactory, {});
 
       assert.deepStrictEqual(
         Object.keys(job),
         [
+          'ModelFactory',
+          'DaoFactory',
           'id',
           'title',
           'location',
