@@ -14,10 +14,10 @@ describe('Dao: Job', function () {
         title: '2',
         location: '3',
         salary: '4',
-        jobType: '5',
+        job_type: '5',
         summary: '6',
         description: '7',
-        datePosted: '2020-01-01',
+        date_posted: '2020-01-01',
       };
 
       const jobData = dao._JobRowtoJobData(jobRow);
@@ -63,6 +63,57 @@ describe('Dao: Job', function () {
       const jobData = await dao.fetchJobById(1);
 
       assert.equal(jobData.id, 1);
+    });
+  });
+  describe('createJob', function () {
+    it('correctly calls the createJob store method', async function () {
+      const mockJobStore = {
+        createJob: sinon.stub().returns({
+          id: 1,
+          title: '1',
+          location: '2',
+          salary: '3',
+          job_type: '4',
+          summary: '5',
+          description: '6',
+          date_posted: '2020-01-01',
+        }),
+      };
+
+      const dao = new JobDao(mockJobStore);
+
+      const mockDate = DateTime.local();
+
+      const jobData = await dao.createJob({
+        title: '1',
+        location: '2',
+        salary: '3',
+        jobType: '4',
+        summary: '5',
+        description: '6',
+        datePosted: mockDate,
+      });
+
+      assert.deepEqual(Object.keys(jobData), [
+        'id',
+        'title',
+        'location',
+        'salary',
+        'jobType',
+        'summary',
+        'description',
+        'datePosted',
+      ]);
+
+      assert.deepEqual(mockJobStore.createJob.getCall(0).args[0], {
+        title: '1',
+        location: '2',
+        salary: '3',
+        job_type: '4',
+        summary: '5',
+        description: '6',
+        date_posted: mockDate.toSQL(),
+      });
     });
   });
 });

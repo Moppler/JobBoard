@@ -104,5 +104,27 @@ describe('Model: Job', function () {
         assert.equal(job, null, 'null is returned');
       });
     });
+    describe('createJob', function () {
+      it('returns an instance of the JobModel', async function () {
+        const mockDaoFactory = {
+          job: {
+            createJob: sinon.stub().resolves({}),
+          },
+        };
+        const job = await JobModel.createJob({}, mockDaoFactory, {});
+
+        assert.ok(job instanceof JobModel, 'Instance of JobModel is returned');
+      });
+      it('returns null when the job does not exist', async function () {
+        const mockDaoFactory = {
+          job: {
+            createJob: sinon.stub().resolves(null),
+          },
+        };
+        const job = await JobModel.createJob({}, mockDaoFactory, {});
+
+        assert.equal(job, null, 'null is returned');
+      });
+    });
   });
 });
