@@ -16,3 +16,59 @@ jobs:
     - run: npm ci
     - run: npm run build --if-present
     - run: npm test
+
+  deploy:
+    runs-on: "ubuntu-latest"
+
+    steps:
+      - name: Get tag name of release
+        run: echo "##[set-output name=tag_name;]$(echo "$GITHUB_REF" | sed 's:.*/::')"
+        id: get_tag_name
+
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v2.1.2
+        with:
+          node-version: 14.x
+
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      # TODO: Add tests
+
+      - run: tar -zcvf ../jobboard-${{ steps.get_tag_name.outputs.tag_name }}.tar.gz .
+      - run: mv ../jobboard-${{ steps.get_tag_name.outputs.tag_name }}.tar.gz .
+
+      - name: Copy TAR to server
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          port: ${{ secrets.PORT }}
+          key: ${{ secrets.KEY }}
+          source: "*.tar.gz"
+          target: "/deploy/jobboard/releases"
+
+      - name: pass environment
+        uses: appleboy/ssh-action@master
+        env:
+          CODEVERSION: ${{ steps.get_tag_name.outputs.tag_name }}
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.KEY }}
+          port: ${{ secrets.PORT }}
+          envs: CODEVERSION
+          script: |
+            cd /deploy/jobboard/releases
+            mkdir jobboard-$CODEVERSION
+            cd jobboard-$CODEVERSION
+            mv ../jobboard-$CODEVERSION.tar.gz .
+            tar -xzvf jobboard-$CODEVERSION.tar.gz
+            npm i
+            cd ../../
+            rm -f current
+            ln -s releases/jobboard-$CODEVERSION current
+            cd current
+            npx db-migrate up -e prod
+            cd ../
+            pm2 startOrRestart current/ecosystem.json
