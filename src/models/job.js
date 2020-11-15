@@ -78,6 +78,22 @@ class JobModel {
 
     return new JobModel(ModelFactory, DaoFactory, jobData);
   }
+
+  /**
+   * Creates a new job based on the supplied job details, it then returns a new
+   * instance of the Jobodel for that newly created job.
+   *
+   * @param {ModelFactory} ModelFactory - Instance of
+   * @param {DaoFactory} DaoFactory - Instance of
+   * @param {JobData} jobDetails - Details of the job to be created
+   * @returns {Promise<JobModel|null>}
+   */
+  static async createJob(ModelFactory, DaoFactory, jobDetails) {
+    const jobData = await DaoFactory.job.createJob(jobDetails);
+    if (!jobData) return null;
+
+    return new JobModel(ModelFactory, DaoFactory, jobData);
+  }
 }
 
 module.exports = JobModel;

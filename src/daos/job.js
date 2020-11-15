@@ -5,7 +5,7 @@
 
 /**
  * @typedef {object} JobData
- * @property {number} id
+ * @property {number} [id] - Optional as new objects don't have one
  * @property {string} title
  * @property {string} location
  * @property {string} salary
@@ -37,10 +37,10 @@ class JobDao {
       title: jobRow.title,
       location: jobRow.location,
       salary: jobRow.salary,
-      jobType: jobRow.jobType,
+      jobType: jobRow.job_type,
       summary: jobRow.summary,
       description: jobRow.description,
-      datePosted: DateTime.fromSQL(jobRow.datePosted),
+      datePosted: DateTime.fromSQL(jobRow.date_posted),
     };
   }
 
@@ -62,6 +62,26 @@ class JobDao {
    */
   async fetchJobById(jobId) {
     const jobRow = await this.JobStore.fetchJobById(jobId);
+    return this._JobRowtoJobData(jobRow);
+  }
+
+  /**
+   * Creates a new job with the provided details and returns the newly created
+   * job.
+   *
+   * @param {JobData} jobPayload - Details of the new job
+   * @returns {Promise<JobData>}
+   */
+  async createJob(jobPayload) {
+    const jobRow = await this.JobStore.createJob({
+      title: jobPayload.title,
+      location: jobPayload.location,
+      salary: jobPayload.salary,
+      job_type: jobPayload.jobType,
+      summary: jobPayload.summary,
+      description: jobPayload.description,
+      date_posted: jobPayload.datePosted.toSQL(),
+    });
     return this._JobRowtoJobData(jobRow);
   }
 }

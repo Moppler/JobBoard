@@ -7,10 +7,12 @@
 
 /**
  * @typedef {import('express').Request & _JobBoardRequest} JBRequest
+ * @typedef {import('express').Response} JBResponse
  */
 
 const express = require('express');
 const exphbs = require('express-handlebars');
+const bodyParser = require('body-parser');
 
 const config = require('../config/environment');
 const app = express();
@@ -25,6 +27,8 @@ const knex = require('knex')(config.database);
 const storeFactory = new StoreFactory(knex);
 const modelFactory = ModelFactory;
 const daoFactory = new DaoFactory(storeFactory);
+
+app.use(bodyParser.json());
 
 /**
  * Adding the config to the request object here makes it available across ALL

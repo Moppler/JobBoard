@@ -66,4 +66,30 @@ describe('Store: Job', function () {
       assert.strictEqual(response, null);
     });
   });
+
+  describe('createJob', function () {
+    it('makes correct calls to the jobs table', async function () {
+      const mockInsert = sinon.stub();
+      const mockReturning = sinon.stub().resolves([{}]);
+      const mockDb = sinon.stub().returns({
+        insert: mockInsert.returns({
+          returning: mockReturning,
+        }),
+      });
+      const store = new JobStore(mockDb);
+
+      await store.createJob({});
+
+      assert.strictEqual(mockDb.getCall(0).args[0], 'jobs');
+      assert.ok(mockInsert.getCall(0).args[0], {});
+    });
+    it('returns null when an exception is caught', async function () {
+      const mockDb = sinon.stub().throwsException();
+      const store = new JobStore(mockDb);
+
+      const response = await store.createJob();
+
+      assert.strictEqual(response, null);
+    });
+  });
 });
