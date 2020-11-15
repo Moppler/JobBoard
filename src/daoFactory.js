@@ -29,6 +29,7 @@
  */
 
 const JobDao = require('./daos/job');
+const UserDao = require('./daos/user');
 
 class DaoFactory {
   /**
@@ -36,6 +37,7 @@ class DaoFactory {
    */
   constructor(StoreFactory) {
     this.job = new JobDao(StoreFactory.job);
+    this.user = new UserDao(StoreFactory.user);
   }
 }
 

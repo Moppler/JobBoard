@@ -10,7 +10,9 @@
  */
 
 const JobModel = require('./models/job');
+const UserModel = require('./models/user');
 
 module.exports = {
   job: JobModel,
+  user: UserModel,
 };
