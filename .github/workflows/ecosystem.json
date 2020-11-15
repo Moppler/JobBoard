@@ -1,0 +1,13 @@
+{
+  "apps": [{
+    "name": "jobboard",
+    "script": "src/app.js",
+    "cwd": "/deploy/jobboard/current", 
+    "error_file": "/deploy/jobboard/logs/app.err.log",
+    "out_file": "../logs/app.out.log",
+    "exec_mode": "fork_mode",
+    "env": {
+      "NODE_ENV": "production"
+    }
+  }]
+}

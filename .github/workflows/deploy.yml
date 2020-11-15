@@ -57,6 +57,6 @@ jobs:
             rm -f current
             ln -s releases/jobboard-$CODEVERSION current
             cd current
-            npx db-migrate up -e prod
+            npx db-migrate up
             cd ../
             pm2 startOrRestart current/ecosystem.json
