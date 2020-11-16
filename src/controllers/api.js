@@ -19,7 +19,6 @@ module.exports = {
       req.ModelFactory,
       req.DaoFactory
     );
-    // console.log(allJobs);
     return res.status(200).json(
       allJobs.map((job) => ({
         id: job.id,
