@@ -8,6 +8,33 @@ const { DateTime } = require('luxon');
 
 module.exports = {
   /**
+   * Fetches all jobs from the system and returns then in this endpoint. If
+   * there are no jobs, an empty array is returned.
+   *
+   * @param {JBRequest} req
+   * @param {JBResponse} res
+   */
+  async fetchAllJobs(req, res) {
+    const allJobs = await req.ModelFactory.job.fetchAllJobs(
+      req.ModelFactory,
+      req.DaoFactory
+    );
+    // console.log(allJobs);
+    return res.status(200).json(
+      allJobs.map((job) => ({
+        id: job.id,
+        title: job.title,
+        location: job.location,
+        salary: job.salary,
+        jobType: job.jobType,
+        summary: job.summary,
+        description: job.description,
+        datePosted: job.datePosted,
+      }))
+    );
+  },
+
+  /**
    * Assuming the request body contains valid job details, this function creates
    * a new job and returns a 201. If any of the provided job details are invalid
    * a 400 response is provided. A 500 if there is an unexpected system issue.

@@ -112,7 +112,7 @@ describe('Dao: Job', function () {
         job_type: '4',
         summary: '5',
         description: '6',
-        date_posted: mockDate.toSQL(),
+        date_posted: mockDate.toJSDate(),
       });
     });
   });

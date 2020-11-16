@@ -40,7 +40,7 @@ class JobDao {
       jobType: jobRow.job_type,
       summary: jobRow.summary,
       description: jobRow.description,
-      datePosted: DateTime.fromSQL(jobRow.date_posted),
+      datePosted: DateTime.fromJSDate(jobRow.date_posted),
     };
   }
 
@@ -80,7 +80,7 @@ class JobDao {
       job_type: jobPayload.jobType,
       summary: jobPayload.summary,
       description: jobPayload.description,
-      date_posted: jobPayload.datePosted.toSQL(),
+      date_posted: jobPayload.datePosted.toJSDate(),
     });
     return this._JobRowtoJobData(jobRow);
   }
