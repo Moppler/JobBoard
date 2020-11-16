@@ -64,4 +64,15 @@ module.exports = {
   async viewDashboard(req, res) {
     return await res.status(200).render('dashboard');
   },
+
+  /**
+   * Renders the dashboard. This page should only be visible to authenticated
+   * users.
+   *
+   * @param {JBRequest} req
+   * @param {JBResponse} res
+   */
+  async viewLogin(req, res) {
+    return await res.status(200).render('loginForm');
+  },
 };
