@@ -4,6 +4,10 @@
  */
 
 /**
+ * Date columns are automatically converted to JS Date objects by the
+ * node-postgres library:
+ * https://node-postgres.com/features/types#date-timestamp-timestamptz
+ *
  * @typedef {object} JobRow
  * @property {number} [id] - Optional for new rows
  * @property {string} title
@@ -12,9 +16,9 @@
  * @property {string} job_type
  * @property {string} summary
  * @property {string} description
- * @property {string} date_posted - SQL datetime
- * @property {string} [created_time] - SQL datetime, Optional for new rows
- * @property {string} [updated_time] - SQL datetime, Optional for new rows
+ * @property {Date} date_posted - SQL datetime
+ * @property {Date} [created_time] - SQL datetime, Optional for new rows
+ * @property {Date} [updated_time] - SQL datetime, Optional for new rows
  */
 
 class JobStore {
