@@ -1,7 +1,9 @@
 # JobBoard
 
 This project is an open source Job Board. It's primary purpose is to serve as a
-training exercise.
+training exercise. Development of features is completed in isolation of any
+possible future goals for the project. The primary purpose for this is to intentionally
+introduce technical debt, this furthers the training capabilities of the project.
 
 ## Requirements
 
