@@ -1,5 +1,6 @@
 /**
  * @typedef {import('../app').JBRequest} JBRequest
+ * @typedef {import('../app').JBResponse} JBResponse
  *
  * @typedef {import('../models/job')} JobModel
  */
@@ -11,7 +12,7 @@ module.exports = {
    * running properly and that it is running the expected version.
    *
    * @param {JBRequest} req
-   * @param {*} res
+   * @param {JBResponse} res
    */
   async listAllJobs(req, res) {
     const jobs = await req.ModelFactory.job.fetchAllJobs(
@@ -31,7 +32,7 @@ module.exports = {
    * Renders specific details about a job.
    *
    * @param {JBRequest} req
-   * @param {*} res
+   * @param {JBResponse} res
    */
   async viewJob(req, res) {
     const jobId = parseInt(req.params.jobId);
@@ -51,5 +52,16 @@ module.exports = {
         datePosted: job.datePosted.toFormat('DDD'),
       },
     });
+  },
+
+  /**
+   * Renders the dashboard. This page should only be visible to authenticated
+   * users.
+   *
+   * @param {JBRequest} req
+   * @param {JBResponse} res
+   */
+  async viewDashboard(req, res) {
+    return await res.status(200).render('dashboard');
   },
 };
