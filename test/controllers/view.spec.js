@@ -4,6 +4,7 @@ const { DateTime } = require('luxon');
 
 const viewController = require('../../src/controllers/view');
 const JobModel = require('../../src/models/job');
+const { before } = require('mocha');
 
 describe('Controller: view', function () {
   describe('listAllJobs', function () {
@@ -104,6 +105,69 @@ describe('Controller: view', function () {
       await viewController.viewJob(mockRequest, mockResponse);
 
       assert.strictEqual(stubRender.getCall(0).args[0], 'viewJob');
+    });
+  });
+  describe('viewDashboard', function () {
+    it('renders the correct template', async function () {
+      const mockStatus = sinon.stub();
+      const mockRender = sinon.stub();
+
+      const mockResponse = {
+        status: mockStatus.returns({
+          render: mockRender,
+        }),
+      };
+
+      viewController.viewDashboard({}, mockResponse);
+
+      assert.equal(mockStatus.getCall(0).args[0], 200);
+      assert.equal(mockRender.getCall(0).args[0], 'dashboard');
+    });
+  });
+  describe('viewLogin', function () {
+    it('renders the correct template', async function () {
+      const mockStatus = sinon.stub();
+      const mockRender = sinon.stub();
+
+      const mockResponse = {
+        status: mockStatus.returns({
+          render: mockRender,
+        }),
+      };
+
+      viewController.viewLogin({}, mockResponse);
+
+      assert.equal(mockStatus.getCall(0).args[0], 200);
+      assert.equal(mockRender.getCall(0).args[0], 'loginForm');
+    });
+  });
+  describe('actionLogin', function () {
+    describe('validate input params', function () {
+      beforeEach(function () {
+        this.statusStub = sinon.stub();
+        this.sendStub = sinon.stub();
+        this.mockResponse = {
+          status: this.statusStub.returns({
+            send: this.sendStub,
+          }),
+        };
+      });
+      it('has a mandatory email', async function () {
+        const mockRequest = { body: { email: '', password: 'PASSWORD' } };
+
+        await viewController.actionLogin(mockRequest, this.mockResponse);
+
+        assert.equal(this.statusStub.getCall(0).args[0], 400);
+        assert.equal(this.sendStub.getCall(0).args[0], 'Incomplete form');
+      });
+      it('has a mandatory password', async function () {
+        const mockRequest = { body: { email: 'EMAIL', password: '' } };
+
+        await viewController.actionLogin(mockRequest, this.mockResponse);
+
+        assert.equal(this.statusStub.getCall(0).args[0], 400);
+        assert.equal(this.sendStub.getCall(0).args[0], 'Incomplete form');
+      });
     });
   });
 });

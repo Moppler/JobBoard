@@ -75,4 +75,28 @@ module.exports = {
   async viewLogin(req, res) {
     return await res.status(200).render('loginForm');
   },
+
+  /**
+   *
+   * @param {JBRequest} req
+   * @param {JBResponse} res
+   */
+  async actionLogin(req, res) {
+    const email = req.body.email;
+    const password = req.body.password;
+
+    if (!email || !password) {
+      return res.status(400).send('Incomplete form');
+    }
+
+    // Find user record by email
+
+    // Compare password against record
+
+    // Generate JWT
+
+    // Push JWT to user and redirect to dashboard
+
+    return res.status(200).json(req.body);
+  },
 };

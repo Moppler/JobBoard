@@ -29,6 +29,7 @@ const modelFactory = ModelFactory;
 const daoFactory = new DaoFactory(storeFactory);
 
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 /**
  * Adding the config to the request object here makes it available across ALL
