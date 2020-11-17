@@ -84,6 +84,17 @@ class JobDao {
     });
     return this._JobRowtoJobData(jobRow);
   }
+
+  /**
+   * Returns a job that matches the specified Id.
+   *
+   * @param {number} jobId
+   * @returns {Promise<JobData>}
+   */
+  async updateJob(jobId) {
+    const jobRow = await this.JobStore.updateJob(jobId);
+    return this._JobRowtoJobData(jobRow);
+  }
 }
 
 module.exports = JobDao;

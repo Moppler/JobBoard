@@ -69,6 +69,20 @@ class JobStore {
       return null;
     }
   }
+
+  /**
+   * Returns a job that matches the specified Id.
+   *
+   * @param {number} jobId
+   * @returns {Promise<JobRow>}
+   */
+  async updateJob(jobId) {
+    try {
+      return this._db('jobs').first().where('id', jobId);
+    } catch (e) {
+      return null;
+    }
+  }
 }
 
 module.exports = JobStore;
