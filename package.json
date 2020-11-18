@@ -6,7 +6,7 @@
   "scripts": {
     "prestart": "db-migrate up",
     "start": "nodemon src/app.js",
-    "test": "nyc --reporter=lcov mocha -R spec --recursive",
+    "test": "nyc --reporter=lcov --reporter=text mocha -R spec --recursive",
     "watch:test": "nodemon --exec npm t"
   },
   "repository": {
