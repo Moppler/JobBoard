@@ -23,7 +23,7 @@ describe('Model: Job', function () {
           'summary',
           'description',
           'datePosted',
-          'datePostedEdited',
+          'datePostedFormatted',
         ],
         ''
       );

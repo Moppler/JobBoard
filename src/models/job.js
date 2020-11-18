@@ -45,7 +45,7 @@ class JobModel {
     this.datePosted = jobData.datePosted;
 
     /** @type {string} */
-    this.datePostedEdited = jobData.datePostedEdited;
+    this.datePostedFormatted = jobData.datePostedFormatted;
   }
 
   /**
