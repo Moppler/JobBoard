@@ -13,6 +13,7 @@
  * @property {string} summary
  * @property {string} description
  * @property {DateTime} datePosted
+ * @property {string} datePostedFormatted
  */
 
 const { DateTime } = require('luxon');
@@ -41,6 +42,9 @@ class JobDao {
       summary: jobRow.summary,
       description: jobRow.description,
       datePosted: DateTime.fromJSDate(jobRow.date_posted),
+      datePostedFormatted: DateTime.fromJSDate(jobRow.date_posted).toFormat(
+        'DDD'
+      ),
     };
   }
 
