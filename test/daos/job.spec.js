@@ -92,7 +92,6 @@ describe('Dao: Job', function () {
         summary: '5',
         description: '6',
         datePosted: mockDate,
-        datePostedFormatted: mockDate,
       });
 
       assert.deepEqual(Object.keys(jobData), [
@@ -104,7 +103,6 @@ describe('Dao: Job', function () {
         'summary',
         'description',
         'datePosted',
-        'datePostedFormatted',
       ]);
 
       assert.deepEqual(mockJobStore.createJob.getCall(0).args[0], {

@@ -43,9 +43,6 @@ class JobModel {
 
     /** @type {import('luxon').DateTime} */
     this.datePosted = jobData.datePosted;
-
-    /** @type {string} */
-    this.datePostedFormatted = jobData.datePostedFormatted;
   }
 
   /**
