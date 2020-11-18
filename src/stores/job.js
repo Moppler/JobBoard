@@ -16,7 +16,7 @@
  * @property {string} job_type
  * @property {string} summary
  * @property {string} description
- * @property {Date} date_posted - SQL datetime
+ * @property {Date} [date_posted] - SQL datetime, not required for updated rows
  * @property {Date} [created_time] - SQL datetime, Optional for new rows
  * @property {Date} [updated_time] - SQL datetime, Optional for new rows
  */
@@ -58,7 +58,7 @@ class JobStore {
   /**
    * Inserts a new job into the databse and then returns the newly created row.
    *
-   * @param {JobRow} newRow - detsils to be inserted into the DB
+   * @param {JobRow} newRow - details to be inserted into the DB
    * @returns {Promise<JobRow>}
    */
   async createJob(newRow) {
@@ -71,9 +71,10 @@ class JobStore {
   }
 
   /**
-   * Returns a job that matches the specified Id.
+   * Updates an existing job and then returns the updated row.
    *
    * @param {number} jobId
+   * @param {JobRow} jobDetails - details to be updated in the DB
    * @returns {Promise<JobRow>}
    */
   async updateJob(jobId, jobDetails) {

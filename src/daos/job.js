@@ -86,10 +86,10 @@ class JobDao {
   }
 
   /**
-   * Returns a job that matches the specified Id.
+   * Updates a job that matches the specified Id.
    *
    * @param {number} jobId
-   * @param {JobData} jobPayload - Details of the new job
+   * @param {JobData} jobPayload - Details of the updated job. Not including ID or date_posted as these shouldn't change.
    * @returns {Promise<JobData>}
    */
   async updateJob(jobId, jobPayload) {

@@ -119,7 +119,11 @@ module.exports = {
     const jobId = parseInt(req.params.jobId);
     const jobPayload = req.body;
 
-    if (!jobId) return res.sendStatus(400);
+    if (!jobId || (jobPayload.id && jobPayload.id !== jobId))
+      return res.sendStatus(400);
+    /*if (jobPayload.id && jobPayload.id !== jobId) {
+      return res.sendStatus(406);
+    }*/
 
     const job = await req.ModelFactory.job.updateJob(
       req.ModelFactory,
