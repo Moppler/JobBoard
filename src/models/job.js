@@ -104,8 +104,8 @@ class JobModel {
    * @param {number} jobId - Identifier of the desired job record.
    * @returns {Promise<JobModel|null>} Instance of JobModel. Null on error.
    */
-  static async updateJob(ModelFactory, DaoFactory, jobId) {
-    const jobData = await DaoFactory.job.updateJob(jobId);
+  static async updateJob(ModelFactory, DaoFactory, jobId, jobDetails ) {
+    const jobData = await DaoFactory.job.updateJob(jobId, jobDetails);
     if (!jobData) return null;
 
     return new JobModel(ModelFactory, DaoFactory, jobData);

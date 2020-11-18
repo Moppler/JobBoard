@@ -117,13 +117,15 @@ module.exports = {
    */
   async updateJob(req, res) {
     const jobId = parseInt(req.params.jobId);
+    const jobPayload = req.body;
 
     if (!jobId) return res.sendStatus(400);
 
     const job = await req.ModelFactory.job.updateJob(
       req.ModelFactory,
       req.DaoFactory,
-      jobId
+      jobId,
+      jobPayload
     );
 
     if (!job) return res.sendStatus(404);

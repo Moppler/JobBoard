@@ -76,9 +76,14 @@ class JobStore {
    * @param {number} jobId
    * @returns {Promise<JobRow>}
    */
-  async updateJob(jobId) {
+  async updateJob(jobId, jobDetails) {
     try {
-      return this._db('jobs').first().where('id', jobId);
+      const rows = await this._db('jobs')
+        .where('id', jobId)
+        .update(jobDetails)
+        .returning('*');
+      console.log(rows[0]);
+      return rows[0];
     } catch (e) {
       return null;
     }

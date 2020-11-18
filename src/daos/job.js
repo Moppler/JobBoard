@@ -89,10 +89,18 @@ class JobDao {
    * Returns a job that matches the specified Id.
    *
    * @param {number} jobId
+   * @param {JobData} jobPayload - Details of the new job
    * @returns {Promise<JobData>}
    */
-  async updateJob(jobId) {
-    const jobRow = await this.JobStore.updateJob(jobId);
+  async updateJob(jobId, jobPayload) {
+    const jobRow = await this.JobStore.updateJob(jobId, {
+      title: jobPayload.title,
+      location: jobPayload.location,
+      salary: jobPayload.salary,
+      job_type: jobPayload.jobType,
+      summary: jobPayload.summary,
+      description: jobPayload.description,
+    });
     return this._JobRowtoJobData(jobRow);
   }
 }
