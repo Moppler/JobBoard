@@ -247,4 +247,21 @@ describe('Controller: api', function () {
       assert.equal(mockJson.getCall(0).args[0].datePosted, 8);
     });
   });
+  describe('updateJob', function () {
+    it('responds with a 400 when there is no jobId', async function () {
+      const mockRequest = {
+        params: {
+          jobId: '',
+        },
+        body: {},
+      };
+      const mockResponse = {
+        sendStatus: sinon.stub(),
+      };
+
+      apiController.updateJob(mockRequest, mockResponse);
+
+      assert.equal(mockResponse.sendStatus.getCall(0).args[0], 400);
+    });
+  });
 });
