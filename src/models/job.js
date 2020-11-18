@@ -43,6 +43,9 @@ class JobModel {
 
     /** @type {import('luxon').DateTime} */
     this.datePosted = jobData.datePosted;
+
+    /** @type {import('luxon').DateTime} */
+    this.datePostedEdited = jobData.datePostedEdited;
   }
 
   /**

@@ -21,6 +21,7 @@ module.exports = {
     const sortedJobs = jobs.sort(
       (a, b) => b.datePosted.toMillis() - a.datePosted.toMillis()
     );
+
     return await res.status(200).render('listJobs', {
       /** @type {JobModel[]} */
       jobs: sortedJobs,
