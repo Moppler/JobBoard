@@ -13,7 +13,7 @@
  * @property {string} summary
  * @property {string} description
  * @property {DateTime} datePosted
- * @property {DateTime} datePostedEdited
+ * @property {string} datePostedEdited
  */
 
 const { DateTime } = require('luxon');
