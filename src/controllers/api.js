@@ -128,6 +128,7 @@ module.exports = {
       req.DaoFactory,
       jobId
     );
+
     if (!job) return res.sendStatus(404);
 
     await job.updateJob(jobPayload);

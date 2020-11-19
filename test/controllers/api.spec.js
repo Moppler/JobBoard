@@ -71,7 +71,7 @@ describe('Controller: api', function () {
         'datePosted',
       ]);
 
-      // Test that the correct properties are mapped to the correct job 
+      // Test that the correct properties are mapped to the correct job
       // attributes.
       assert.equal(mockJson.getCall(0).args[0][0].id, 1);
       assert.equal(mockJson.getCall(0).args[0][0].title, 2);
@@ -262,6 +262,100 @@ describe('Controller: api', function () {
       apiController.updateJob(mockRequest, mockResponse);
 
       assert.equal(mockResponse.sendStatus.getCall(0).args[0], 400);
+    });
+    it('responds with a 400 when the jobId does not match the jobPayload.id', async function () {
+      const mockRequest = {
+        params: {
+          jobId: 1,
+        },
+        body: {
+          id: 2,
+        },
+      };
+      const mockResponse = {
+        sendStatus: sinon.stub(),
+      };
+
+      apiController.updateJob(mockRequest, mockResponse);
+
+      assert.equal(mockResponse.sendStatus.getCall(0).args[0], 400);
+    });
+    it('returns a 404 if the requested job does not exist', async function () {
+      const mockStatus = sinon.stub();
+
+      const mockRequest = {
+        params: {
+          jobId: '9999',
+        },
+        body: {},
+        ModelFactory: {
+          job: {
+            fetchById: sinon.stub().resolves(null),
+          },
+        },
+      };
+      const mockResponse = {
+        sendStatus: mockStatus,
+      };
+      await apiController.updateJob(mockRequest, mockResponse);
+
+      assert.equal(mockStatus.getCall(0).args[0], 404);
+    });
+    it('Returns status 200 if job updated, and jobs have correct properties', async function () {
+      const mockStatus = sinon.stub();
+      const mockJson = sinon.stub();
+      const mockRequest = {
+        params: {
+          jobId: '1',
+        },
+        body: {},
+        ModelFactory: {
+          job: {
+            fetchById: sinon.stub().resolves({
+              id: 1,
+              title: 2,
+              location: 3,
+              salary: 4,
+              jobType: 5,
+              summary: 6,
+              description: 7,
+              datePosted: 8,
+              updateJob: sinon.stub(),
+            }),
+          },
+        },
+      };
+      const mockResponse = {
+        status: mockStatus.returns({
+          json: mockJson,
+        }),
+      };
+
+      await apiController.updateJob(mockRequest, mockResponse);
+
+      assert.equal(mockStatus.getCall(0).args[0], 200);
+
+      assert.deepEqual(Object.keys(mockJson.getCall(0).args[0]), [
+        'id',
+        'title',
+        'location',
+        'salary',
+        'jobType',
+        'summary',
+        'description',
+        'datePosted',
+      ]);
+
+      // Test that the correct properties are mapped to the correct job
+      // attributes.
+      assert.equal(mockJson.getCall(0).args[0].id, 1);
+      assert.equal(mockJson.getCall(0).args[0].title, 2);
+      assert.equal(mockJson.getCall(0).args[0].location, 3);
+      assert.equal(mockJson.getCall(0).args[0].salary, 4);
+      assert.equal(mockJson.getCall(0).args[0].jobType, 5);
+      assert.equal(mockJson.getCall(0).args[0].summary, 6);
+      assert.equal(mockJson.getCall(0).args[0].description, 7);
+      assert.equal(mockJson.getCall(0).args[0].datePosted, 8);
     });
   });
 });
