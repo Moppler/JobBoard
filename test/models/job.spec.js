@@ -127,4 +127,22 @@ describe('Model: Job', function () {
       });
     });
   });
+  describe('Instance Functions', function () {
+    describe('updateJob', function () {
+      it('returns null when job does not exist', async function () {
+        const mockJobInstance = {
+          DaoFactory: {
+            job: {
+              updateJob: sinon.stub().resolves(null),
+            },
+          },
+        };
+        const job = await mockJobInstance.updateJob(1, {});
+
+        assert.equal(job, null, 'null is returned');
+      });
+      it('updates values of instance with correct details', async function () {});
+      it('returns true when executed correctly', async function () {});
+    });
+  });
 });

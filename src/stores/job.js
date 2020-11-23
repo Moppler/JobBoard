@@ -83,7 +83,6 @@ class JobStore {
         .where('id', jobId)
         .update(jobDetails)
         .returning('*');
-      console.log(rows[0]);
       return rows[0];
     } catch (e) {
       return null;
