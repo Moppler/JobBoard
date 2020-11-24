@@ -94,8 +94,7 @@ describe('Store: Job', function () {
   });
   describe('updateJob', function () {
     it('makes correct calls to the jobs table', async function () {
-      const whereId = { id: 1 };
-      const mockWhere = sinon.stub().resolves(whereId);
+      const mockWhere = sinon.stub();
       const mockUpdate = sinon.stub();
       const mockReturning = sinon.stub().resolves([{}]);
       const mockDb = sinon.stub().returns({
