@@ -116,4 +116,51 @@ describe('Dao: Job', function () {
       });
     });
   });
+  describe('updateJob', function () {
+    it('correctly calls the updateJob store method', async function () {
+      const mockJobStore = {
+        updateJob: sinon.stub().returns({
+          id: 1,
+          title: '1',
+          location: '2',
+          salary: '3',
+          job_type: '4',
+          summary: '5',
+          description: '6',
+          datePosted: '2020-01-01',
+        }),
+      };
+
+      const dao = new JobDao(mockJobStore);
+
+      const jobData = await dao.updateJob(1, {
+        title: '1',
+        location: '2',
+        salary: '3',
+        jobType: '4',
+        summary: '5',
+        description: '6',
+      });
+
+      assert.deepEqual(Object.keys(jobData), [
+        'id',
+        'title',
+        'location',
+        'salary',
+        'jobType',
+        'summary',
+        'description',
+        'datePosted',
+      ]);
+
+      assert.deepEqual(mockJobStore.updateJob.getCall(0).args[1], {
+        title: '1',
+        location: '2',
+        salary: '3',
+        job_type: '4',
+        summary: '5',
+        description: '6',
+      });
+    });
+  });
 });

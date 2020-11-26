@@ -84,6 +84,25 @@ class JobDao {
     });
     return this._JobRowtoJobData(jobRow);
   }
+
+  /**
+   * Updates a job that matches the specified Id.
+   *
+   * @param {number} jobId
+   * @param {JobData} jobPayload - Details of the updated job. Not including ID or date_posted as these shouldn't change.
+   * @returns {Promise<JobData>}
+   */
+  async updateJob(jobId, jobPayload) {
+    const jobRow = await this.JobStore.updateJob(jobId, {
+      title: jobPayload.title,
+      location: jobPayload.location,
+      salary: jobPayload.salary,
+      job_type: jobPayload.jobType,
+      summary: jobPayload.summary,
+      description: jobPayload.description,
+    });
+    return this._JobRowtoJobData(jobRow);
+  }
 }
 
 module.exports = JobDao;

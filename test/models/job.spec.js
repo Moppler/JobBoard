@@ -127,4 +127,58 @@ describe('Model: Job', function () {
       });
     });
   });
+  describe('Instance Functions', function () {
+    describe('updateJob', function () {
+      it('returns null when there is an issue in the Dao', async function () {
+        const stubUpdateJob = sinon.stub().resolves(null);
+        const mockModelFactory = {};
+        const mockDaoFactory = {
+          job: {
+            updateJob: stubUpdateJob,
+          },
+        };
+        const jobModel = new JobModel(mockModelFactory, mockDaoFactory, {});
+        const updateResult = await jobModel.updateJob({});
+        assert.equal(updateResult, null);
+      });
+      it('updates values of instance with correct details', async function () {
+        const jobDataUpdate = {
+          title: '2',
+          location: '3',
+          salary: '4',
+          jobType: '5',
+          summary: '6',
+          description: '7',
+        };
+        const stubUpdateJob = sinon.stub().resolves(jobDataUpdate);
+        const mockModelFactory = {};
+        const mockDaoFactory = {
+          job: {
+            updateJob: stubUpdateJob,
+          },
+        };
+        const jobModel = new JobModel(mockModelFactory, mockDaoFactory, {});
+        await jobModel.updateJob(jobDataUpdate);
+
+        assert.equal(jobModel.title, 2);
+        assert.equal(jobModel.location, 3);
+        assert.equal(jobModel.salary, 4);
+        assert.equal(jobModel.jobType, 5);
+        assert.equal(jobModel.summary, 6);
+        assert.equal(jobModel.description, 7);
+      });
+      it('returns true when resolved correctly', async function () {
+        const stubUpdateJob = sinon.stub().resolves({});
+        const mockModelFactory = {};
+        const mockDaoFactory = {
+          job: {
+            updateJob: stubUpdateJob,
+          },
+        };
+        const jobModel = new JobModel(mockModelFactory, mockDaoFactory, {});
+        const updateResult = await jobModel.updateJob({});
+        assert.equal(updateResult, true);
+      });
+    });
+  });
 });
