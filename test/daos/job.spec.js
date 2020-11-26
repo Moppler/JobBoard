@@ -133,17 +133,14 @@ describe('Dao: Job', function () {
 
       const dao = new JobDao(mockJobStore);
 
-      const jobData = await dao.updateJob(
-        { id: 1 },
-        {
-          title: '1',
-          location: '2',
-          salary: '3',
-          jobType: '4',
-          summary: '5',
-          description: '6',
-        }
-      );
+      const jobData = await dao.updateJob(1, {
+        title: '1',
+        location: '2',
+        salary: '3',
+        jobType: '4',
+        summary: '5',
+        description: '6',
+      });
 
       assert.deepEqual(Object.keys(jobData), [
         'id',
