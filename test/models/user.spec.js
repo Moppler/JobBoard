@@ -12,9 +12,30 @@ describe('Model: User', function () {
 
       assert.deepStrictEqual(
         Object.keys(user),
-        ['ModelFactory', 'DaoFactory', 'id'],
+        ['ModelFactory', 'DaoFactory', 'id', 'email', '_passwordHash'],
         ''
       );
+    });
+  });
+  describe('Static Functions', function () {
+    describe('fetchUserByEmail', function () {
+      it('returns null when the dao doesnt return a user', async function () {
+        const mockFetchByEmail = sinon.stub().resolves(null);
+
+        const mockModelFactory = {};
+        const mockDaoFactory = {
+          user: {
+            fetchByEmail: mockFetchByEmail,
+          },
+        };
+        const fetchedUser = await UserModel.fetchUserByEmail(
+          mockModelFactory,
+          mockDaoFactory,
+          ''
+        );
+
+        assert.equal(fetchedUser, null);
+      });
     });
   });
 });

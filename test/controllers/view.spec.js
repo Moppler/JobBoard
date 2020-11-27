@@ -4,7 +4,6 @@ const { DateTime } = require('luxon');
 
 const viewController = require('../../src/controllers/view');
 const JobModel = require('../../src/models/job');
-const { before } = require('mocha');
 
 describe('Controller: view', function () {
   describe('listAllJobs', function () {
@@ -108,17 +107,20 @@ describe('Controller: view', function () {
     });
   });
   describe('viewDashboard', function () {
-    it('renders the correct template', async function () {
+    it('renders the correct template if the user is authed', async function () {
       const mockStatus = sinon.stub();
       const mockRender = sinon.stub();
 
+      const mockRequest = {
+        User: 'Pretend I am a UserObject',
+      };
       const mockResponse = {
         status: mockStatus.returns({
           render: mockRender,
         }),
       };
 
-      viewController.viewDashboard({}, mockResponse);
+      viewController.viewDashboard(mockRequest, mockResponse);
 
       assert.equal(mockStatus.getCall(0).args[0], 200);
       assert.equal(mockRender.getCall(0).args[0], 'dashboard');
@@ -168,6 +170,67 @@ describe('Controller: view', function () {
         assert.equal(this.statusStub.getCall(0).args[0], 400);
         assert.equal(this.sendStub.getCall(0).args[0], 'Incomplete form');
       });
+    });
+    it('returns a 404 if the user does not exist', async function () {
+      const mockFetchUserByEmail = sinon.stub();
+      const mockSendStatus = sinon.stub();
+      const mockRequest = {
+        body: {
+          email: 'EMAIL',
+          password: 'PASSWORD',
+        },
+        ModelFactory: {
+          user: {
+            fetchUserByEmail: mockFetchUserByEmail.resolves(null),
+          },
+        },
+        DaoFactory: sinon.stub(),
+      };
+      const mockResponse = {
+        sendStatus: mockSendStatus,
+      };
+
+      await viewController.actionLogin(mockRequest, mockResponse);
+
+      assert.equal(
+        mockFetchUserByEmail.getCall(0).args[0],
+        mockRequest.ModelFactory
+      );
+      assert.equal(
+        mockFetchUserByEmail.getCall(0).args[1],
+        mockRequest.DaoFactory
+      );
+      assert.equal(mockFetchUserByEmail.getCall(0).args[2], 'EMAIL');
+      assert.equal(mockSendStatus.getCall(0).args[0], 404);
+    });
+    it('calls validate password on the userModel and responds with a 401 if invalid', async function () {
+      const mockUserModelInstance = {
+        validatePassword: sinon.stub().resolves(false),
+      };
+
+      const mockFetchUserByEmail = sinon.stub();
+      const mockSendStatus = sinon.stub();
+      const mockRequest = {
+        body: {
+          email: 'EMAIL',
+          password: 'PASSWORD',
+        },
+        ModelFactory: {
+          user: {
+            fetchUserByEmail: mockFetchUserByEmail.resolves(
+              mockUserModelInstance
+            ),
+          },
+        },
+        DaoFactory: sinon.stub(),
+      };
+      const mockResponse = {
+        sendStatus: mockSendStatus,
+      };
+
+      await viewController.actionLogin(mockRequest, mockResponse);
+
+      assert.equal(mockSendStatus.getCall(0).args[0], 401);
     });
   });
 });

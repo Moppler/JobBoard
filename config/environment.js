@@ -1,6 +1,12 @@
 const pkg = require('../package.json');
 const env = process.env.NODE_ENV;
 
+/**
+ * @typedef {object} JWTConfig
+ * @property {string} secret
+ * @property {string} expiresIn
+ */
+
 const APP = {
   /** @type {string} Current application version */
   version: pkg.version,
@@ -11,6 +17,12 @@ const APP = {
   database: {
     client: 'postgres',
     connection: process.env.DATABASE_URL,
+  },
+
+  /** @type {JWTConfig} */
+  JWT: {
+    secret: 'THIS IS A SECRET STRING', // In Prod, use a key
+    expiresIn: '8h', // 8 hours
   },
 };
 

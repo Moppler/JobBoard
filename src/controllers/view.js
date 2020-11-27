@@ -5,6 +5,12 @@
  * @typedef {import('../models/job')} JobModel
  */
 
+/**
+ * This controller is responsible for everything that is rendered to a user.
+ * In the future, should we choose to move away from server-side rendering in
+ * favor of something a little more modern, we will replace these controllers
+ * with api calls.
+ */
 module.exports = {
   /**
    * Returns a JSON object containing the version number of the application.
@@ -62,6 +68,8 @@ module.exports = {
    * @param {JBResponse} res
    */
   async viewDashboard(req, res) {
+    if (!req.User) return res.redirect('/login');
+
     return await res.status(200).render('dashboard');
   },
 
@@ -89,14 +97,25 @@ module.exports = {
       return res.status(400).send('Incomplete form');
     }
 
-    // Find user record by email
+    const user = await req.ModelFactory.user.fetchUserByEmail(
+      req.ModelFactory,
+      req.DaoFactory,
+      email
+    );
 
-    // Compare password against record
+    if (!user) return res.sendStatus(404);
+
+    const passwordIsValid = await user.validatePassword(password);
+
+    if (!passwordIsValid) return res.sendStatus(401);
 
     // Generate JWT
+    const newJWT = await user.generateJWT(req.Config.JWT);
 
-    // Push JWT to user and redirect to dashboard
-
-    return res.status(200).json(req.body);
+    res.cookie('JWT', newJWT, {
+      httpOnly: true,
+      sameSite: 'strict',
+    });
+    return res.redirect('/dashboard');
   },
 };
