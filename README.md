@@ -31,3 +31,7 @@ a new release is published.
 
 1. Tag a new release on the master branch. All tags should reflect the version defined in the `package.json` file
 2. Publish a release for that tag in the Github UI.
+
+## Testing
+
+This is a test to demo branching.
