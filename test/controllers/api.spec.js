@@ -358,4 +358,73 @@ describe('Controller: api', function () {
       assert.equal(mockJson.getCall(0).args[0].datePosted, 8);
     });
   });
+  describe('deleteJob', function () {
+    it('responds with a 400 when there is no jobId', async function () {
+      const mockRequest = {
+        params: {
+          jobId: '',
+        },
+        body: {},
+      };
+      const mockResponse = {
+        sendStatus: sinon.stub(),
+      };
+
+      apiController.deleteJob(mockRequest, mockResponse);
+
+      assert.equal(mockResponse.sendStatus.getCall(0).args[0], 400);
+    });
+    it('returns a 404 if the requested job does not exist', async function () {
+      const mockStatus = sinon.stub();
+
+      const mockRequest = {
+        params: {
+          jobId: '9999',
+        },
+        body: {},
+        ModelFactory: {
+          job: {
+            fetchById: sinon.stub().resolves(null),
+          },
+        },
+      };
+      const mockResponse = {
+        sendStatus: mockStatus,
+      };
+      await apiController.deleteJob(mockRequest, mockResponse);
+
+      assert.equal(mockStatus.getCall(0).args[0], 404);
+    });
+    it('Returns status 204 if job deleted', async function () {
+      const mockStatus = sinon.stub();
+
+      const mockRequest = {
+        params: {
+          jobId: '1',
+        },
+        body: {},
+        ModelFactory: {
+          job: {
+              fetchById: sinon.stub().resolves({
+                id: 1,
+                title: 2,
+                location: 3,
+                salary: 4,
+                jobType: 5,
+                summary: 6,
+                description: 7,
+                datePosted: 8,
+                deleteJob: sinon.stub(),
+              }),
+            },
+        },
+      };
+      const mockResponse = {
+        sendStatus: mockStatus,
+      };
+      await apiController.deleteJob(mockRequest, mockResponse);
+
+      assert.equal(mockStatus.getCall(0).args[0], 204);
+  });
+  });
 });

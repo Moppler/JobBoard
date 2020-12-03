@@ -67,8 +67,7 @@ class JobModel {
   }
 
   /**
-   * Fetches a specific job based on the supplied job itentifier and returns an
-   * instance of the JobModel. If the job does not exist, null is returned.
+   * Deletes a specific job based on the supplied job itentifier. If the job does not exist, null is returned.
    *
    * @returns {Promise<boolean|null>} Instance of JobModel. Null on error.
    */

@@ -155,7 +155,7 @@ module.exports = {
   async deleteJob(req, res) {
     const jobId = parseInt(req.params.jobId);
 
-    if (!jobId) return res.sendStatus(404);
+    if (!jobId) return res.sendStatus(400);
 
     const job = await req.ModelFactory.job.fetchById(
       req.ModelFactory,
