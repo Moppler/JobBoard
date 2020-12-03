@@ -103,6 +103,19 @@ class JobDao {
     });
     return this._JobRowtoJobData(jobRow);
   }
+  /**
+   * Deletes a job that matches the specified Id.
+   *
+   * @param {number} jobId
+   * @returns {Promise<boolean|null>} True if successful. Null on error.
+   */
+  async deleteJob(jobId) {
+    try {
+      await this.JobStore.deleteJob(jobId);
+    } catch (e) {
+      return null;
+    }
+  }
 }
 
 module.exports = JobDao;

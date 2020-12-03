@@ -144,4 +144,32 @@ module.exports = {
       datePosted: job.datePosted,
     });
   },
+  /**
+   * Fetches a single job from the system and deletes it. If the job does not
+   * exist, a 404 is returned. If the requested jobId is not a number, a 400
+   * is returned.
+   *
+   * @param {JBRequest} req
+   * @param {JBResponse} res
+   */
+  async deleteJob(req, res) {
+    const jobId = parseInt(req.params.jobId);
+
+    if (!jobId) return res.sendStatus(404);
+
+    const job = await req.ModelFactory.job.fetchById(
+      req.ModelFactory,
+      req.DaoFactory,
+      jobId
+    );
+
+    if (!job) return res.sendStatus(404);
+
+    try {
+      await job.deleteJob();
+      return res.sendStatus(204);
+    } catch (e) {
+      return null;
+    }
+  },
 };

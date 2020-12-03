@@ -88,6 +88,20 @@ class JobStore {
       return null;
     }
   }
+
+  /**
+   * Deletes an existing job and returns true.
+   *
+   * @param {number} jobId
+   * @returns {Promise<Boolean|Null>}
+   */
+  async deleteJob(jobId) {
+    try {
+      await this._db('jobs').where('id', jobId).del();
+    } catch (e) {
+      return null;
+    }
+  }
 }
 
 module.exports = JobStore;
