@@ -64,6 +64,17 @@ describe('Dao: Job', function () {
 
       assert.equal(jobData.id, 1);
     });
+    it('responds null when db returns undefined', async function () {
+      const mockJobStore = {
+        fetchJobById: sinon.stub().returns(undefined),
+      };
+
+      const dao = new JobDao(mockJobStore);
+
+      const response = await dao.fetchJobById(1);
+
+      assert.strictEqual(response, null);
+    });
   });
   describe('createJob', function () {
     it('correctly calls the createJob store method', async function () {
