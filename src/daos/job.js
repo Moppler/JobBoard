@@ -62,6 +62,9 @@ class JobDao {
    */
   async fetchJobById(jobId) {
     const jobRow = await this.JobStore.fetchJobById(jobId);
+    if (jobRow === undefined) {
+      return null;
+    }
     return this._JobRowtoJobData(jobRow);
   }
 

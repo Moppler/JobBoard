@@ -74,6 +74,7 @@ class JobModel {
   async deleteJob() {
     try {
       await this.DaoFactory.job.deleteJob(this.id);
+      return true;
     } catch (e) {
       return null;
     }

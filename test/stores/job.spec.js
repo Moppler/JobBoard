@@ -121,4 +121,30 @@ describe('Store: Job', function () {
       assert.strictEqual(response, null);
     });
   });
+  describe('deleteJob', function () {
+    it('makes correct calls to the jobs table', async function () {
+      const mockWhere = sinon.stub();
+      const mockDelete = sinon.stub();
+      const mockDb = sinon.stub().returns({
+        where: mockWhere.returns({
+          del: mockDelete,
+        }),
+      });
+
+      const store = new JobStore(mockDb);
+
+      await store.deleteJob(1);
+
+      assert.strictEqual(mockDb.getCall(0).args[0], 'jobs');
+      assert.strictEqual(mockWhere.getCall(0).args[1], 1);
+    });
+    it('returns null when an exception is caught', async function () {
+      const mockDb = sinon.stub().throwsException();
+      const store = new JobStore(mockDb);
+
+      const response = await store.deleteJob();
+
+      assert.strictEqual(response, null);
+    });
+  });
 });

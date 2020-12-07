@@ -1,4 +1,5 @@
 const assert = require('chai').assert;
+const { exception } = require('console');
 const sinon = require('sinon');
 
 const apiController = require('../../src/controllers/api');
@@ -405,18 +406,18 @@ describe('Controller: api', function () {
         body: {},
         ModelFactory: {
           job: {
-              fetchById: sinon.stub().resolves({
-                id: 1,
-                title: 2,
-                location: 3,
-                salary: 4,
-                jobType: 5,
-                summary: 6,
-                description: 7,
-                datePosted: 8,
-                deleteJob: sinon.stub(),
-              }),
-            },
+            fetchById: sinon.stub().resolves({
+              id: 1,
+              title: 2,
+              location: 3,
+              salary: 4,
+              jobType: 5,
+              summary: 6,
+              description: 7,
+              datePosted: 8,
+              deleteJob: sinon.stub(),
+            }),
+          },
         },
       };
       const mockResponse = {
@@ -425,6 +426,35 @@ describe('Controller: api', function () {
       await apiController.deleteJob(mockRequest, mockResponse);
 
       assert.equal(mockStatus.getCall(0).args[0], 204);
-  });
+    });
+    it('returns null if exception with deleting from database', async function () {
+      const mockRequest = {
+        params: {
+          jobId: '1',
+        },
+        body: {},
+        ModelFactory: {
+          job: {
+            fetchById: sinon.stub().resolves({
+              id: 1,
+              title: 2,
+              location: 3,
+              salary: 4,
+              jobType: 5,
+              summary: 6,
+              description: 7,
+              datePosted: 8,
+              deleteJob: sinon.stub().throws(exception),
+            }),
+          },
+        },
+      };
+
+      const mockResponse = sinon.stub();
+
+      const response = await apiController.deleteJob(mockRequest, mockResponse);
+
+      assert.equal(response, null);
+    });
   });
 });
