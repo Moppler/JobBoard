@@ -76,7 +76,6 @@ class JobModel {
    * @returns {Promise<JobModel[]|null>} Array of JobModel Objects. Null on error.
    */
   static async fetchAllJobs(ModelFactory, DaoFactory) {
-    console.log('model start');
     const jobsData = await DaoFactory.job.fetchAllJobs();
     if (!jobsData) return null;
 

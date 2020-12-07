@@ -66,7 +66,7 @@ describe('Dao: Job', function () {
     });
     it('responds null when db returns undefined', async function () {
       const mockJobStore = {
-        fetchJobById: sinon.stub().returns(undefined),
+        fetchJobById: sinon.stub().resolves(undefined),
       };
 
       const dao = new JobDao(mockJobStore);

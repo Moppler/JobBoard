@@ -19,7 +19,6 @@ module.exports = {
       req.ModelFactory,
       req.DaoFactory
     );
-    // console.log(allJobs);
     return res.status(200).json(
       allJobs.map((job) => ({
         id: job.id,
@@ -84,7 +83,6 @@ module.exports = {
    */
   async fetchJob(req, res) {
     const jobId = parseInt(req.params.jobId);
-    console.log('controller sthttp-sart');
     if (!jobId) return res.sendStatus(400);
 
     const job = await req.ModelFactory.job.fetchById(
