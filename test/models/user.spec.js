@@ -91,13 +91,23 @@ describe('Model: User', function () {
       });
     });
     describe('verifyJWT', function () {
-      const decodedToken = UserModel.verifyJWT(
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c',
-        {
-          secret: 'SECRET',
-        }
-      );
-      assert.equal(decodedToken, null);
+      it('returns null when there is a bad token', async function () {
+        const decodedToken = await UserModel.verifyJWT('', { secret: '' });
+
+        assert.isNull(decodedToken);
+      });
+      it('verifies a valid token', async function () {
+        const decodedToken = await UserModel.verifyJWT(
+          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.jMz7bUEiWa_Ua4gfJT_sDLQxB_SYaDNhAoh2oMOVoo8',
+          { secret: 'THIS IS A SECRET' }
+        );
+
+        assert.deepEqual(decodedToken, {
+          sub: '1234567890',
+          name: 'John Doe',
+          iat: 1516239022,
+        });
+      });
     });
   });
 });

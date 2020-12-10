@@ -40,9 +40,38 @@ describe('Dao: User', function () {
       const dao = new UserDao(mockUserStore);
 
       const mapperStub = sinon
-        .stub(dao, '_UserRowtoUserData').returns('RESPONSE');
+        .stub(dao, '_UserRowtoUserData')
+        .returns('RESPONSE');
 
       const result = await dao.fetchByEmail('');
+
+      assert.equal(result, 'RESPONSE');
+      assert.equal(mapperStub.getCall(0).args[0], mockStoreResponse);
+    });
+  });
+  describe('fetchById', function () {
+    it('returns null when the store returns null', async function () {
+      const mockUserStore = {
+        fetchById: sinon.stub().resolves(null),
+      };
+      const dao = new UserDao(mockUserStore);
+
+      const result = await dao.fetchById('');
+
+      assert.equal(result, null);
+    });
+    it('returns a call to the mapper function with the store data', async function () {
+      const mockStoreResponse = sinon.stub();
+      const mockUserStore = {
+        fetchById: sinon.stub().resolves(mockStoreResponse),
+      };
+      const dao = new UserDao(mockUserStore);
+
+      const mapperStub = sinon
+        .stub(dao, '_UserRowtoUserData')
+        .returns('RESPONSE');
+
+      const result = await dao.fetchById('');
 
       assert.equal(result, 'RESPONSE');
       assert.equal(mapperStub.getCall(0).args[0], mockStoreResponse);

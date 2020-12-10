@@ -107,6 +107,20 @@ describe('Controller: view', function () {
     });
   });
   describe('viewDashboard', function () {
+    it('redirects to login if the user is not authed', async function () {
+      const mockRedirect = sinon.stub();
+
+      const mockRequest = {
+        User: null,
+      };
+      const mockResponse = {
+        redirect: mockRedirect,
+      };
+
+      viewController.viewDashboard(mockRequest, mockResponse);
+
+      assert.equal(mockRedirect.getCall(0).args[0], '/login');
+    });
     it('renders the correct template if the user is authed', async function () {
       const mockStatus = sinon.stub();
       const mockRender = sinon.stub();
@@ -231,6 +245,50 @@ describe('Controller: view', function () {
       await viewController.actionLogin(mockRequest, mockResponse);
 
       assert.equal(mockSendStatus.getCall(0).args[0], 401);
+    });
+    it('generates a JWT, sets it as a Cookie and redirects to the dashboard', async function () {
+      const mockUserModelInstance = {
+        validatePassword: sinon.stub().resolves(true),
+        generateJWT: sinon.stub().resolves('THIS IS A JWT'),
+      };
+
+      const mockFetchUserByEmail = sinon.stub();
+      const mockCookieSetter = sinon.stub();
+      const mockRedirect = sinon.stub();
+      const mockRequest = {
+        body: {
+          email: 'EMAIL',
+          password: 'PASSWORD',
+        },
+        ModelFactory: {
+          user: {
+            fetchUserByEmail: mockFetchUserByEmail.resolves(
+              mockUserModelInstance
+            ),
+          },
+        },
+        DaoFactory: sinon.stub(),
+        Config: {
+          JWT: {},
+        },
+      };
+      const mockResponse = {
+        cookie: mockCookieSetter,
+        redirect: mockRedirect,
+      };
+
+      await viewController.actionLogin(mockRequest, mockResponse);
+
+      assert.equal(
+        mockCookieSetter.getCall(0).args[0],
+        'JWT',
+        'Cookie name is correct'
+      );
+      assert.equal(mockCookieSetter.getCall(0).args[1], 'THIS IS A JWT');
+      assert.equal(mockCookieSetter.getCall(0).args[2].httpOnly, true);
+      assert.equal(mockCookieSetter.getCall(0).args[2].sameSite, 'strict');
+
+      assert.equal(mockRedirect.getCall(0).args[0], '/dashboard');
     });
   });
 });
