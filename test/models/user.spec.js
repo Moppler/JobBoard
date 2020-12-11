@@ -17,7 +17,7 @@ describe('Model: User', function () {
       );
     });
   });
-  describe('Static Functions', function () {
+  describe('Static Methods', function () {
     describe('fetchUserByEmail', function () {
       it('returns null when the dao doesnt return a user', async function () {
         const mockFetchByEmail = sinon.stub().resolves(null);
@@ -107,6 +107,38 @@ describe('Model: User', function () {
           name: 'John Doe',
           iat: 1516239022,
         });
+      });
+    });
+  });
+  describe('Instance Methods', function () {
+    describe('validatePassword', function () {
+      it('returns false when the specified password is incorrect', async function () {
+        const user = new UserModel({}, {}, { passwordHash: 'THISISAHASH' });
+
+        const result = await user.validatePassword('BADPASSWORD');
+
+        assert.equal(result, false);
+      });
+      it('returns false when the specified password is invalid', async function () {
+        const user = new UserModel({}, {}, { passwordHash: 'THISISAHASH' });
+
+        const result = await user.validatePassword({});
+
+        assert.equal(result, false);
+      });
+      it('returns true when the specified password is correct', async function () {
+        const user = new UserModel(
+          {},
+          {},
+          {
+            passwordHash:
+              '$2b$10$Vs.xbiVx/Nd//eYTTl1kL.uWxMYf2weQzXccc/KpwdkAc.Gg/Fx5C',
+          }
+        );
+
+        const result = await user.validatePassword('GOOD_PASSWORD');
+
+        assert.equal(result, true);
       });
     });
   });
