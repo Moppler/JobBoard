@@ -3,6 +3,7 @@ const sinon = require('sinon');
 
 const { DateTime } = require('luxon');
 const JobDao = require('../../src/daos/job');
+const { exception } = require('console');
 
 describe('Dao: Job', function () {
   describe('_JobRowtoJobData', function () {
@@ -173,5 +174,29 @@ describe('Dao: Job', function () {
         description: '6',
       });
     });
+  });
+  describe('deleteJob', function () {
+    it('correctly calls the updateJob store method', async function () {
+      const mockJobStore = {
+        deleteJob: sinon.stub().resolves(),
+      };
+
+      const dao = new JobDao(mockJobStore);
+
+      await dao.deleteJob(1);
+
+      assert.equal(mockJobStore.deleteJob.getCall(0).args[0], 1);
+    }),
+      it('returns null if there is an exception', async function () {
+        const mockJobStore = {
+          deleteJob: sinon.stub().throws(exception),
+        };
+
+        const dao = new JobDao(mockJobStore);
+
+        const funcResponse = await dao.deleteJob(1);
+
+        assert.equal(funcResponse, null);
+      });
   });
 });

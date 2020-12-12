@@ -1,4 +1,5 @@
 const assert = require('chai').assert;
+const { exception } = require('console');
 const sinon = require('sinon');
 
 const JobModel = require('../../src/models/job');
@@ -179,6 +180,32 @@ describe('Model: Job', function () {
         const updateResult = await jobModel.updateJob({});
         assert.equal(updateResult, true);
       });
+    });
+    describe('deleteJob', function () {
+      it('returns null when exception in deleteJob function', async function () {
+        const stubDeleteJob = sinon.stub().throws(exception);
+        const mockModelFactory = {};
+        const mockDaoFactory = {
+          job: {
+            deleteJob: stubDeleteJob,
+          },
+        };
+        const jobModel = new JobModel(mockModelFactory, mockDaoFactory, {});
+        const deleteResult = await jobModel.deleteJob({});
+        assert.equal(deleteResult, null);
+      });
+    });
+    it('returns true when resolved correctly', async function () {
+      const stubDeleteJob = sinon.stub();
+      const mockModelFactory = {};
+      const mockDaoFactory = {
+        job: {
+          deleteJob: stubDeleteJob,
+        },
+      };
+      const jobModel = new JobModel(mockModelFactory, mockDaoFactory, {});
+      const updateResult = await jobModel.deleteJob();
+      assert.equal(updateResult, true);
     });
   });
 });
