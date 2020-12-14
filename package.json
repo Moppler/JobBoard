@@ -6,7 +6,7 @@
   "scripts": {
     "prestart": "npm i && db-migrate up",
     "start": "nodemon src/app.js",
-    "test": "nyc --reporter=lcov mocha -R spec --recursive",
+    "test": "nyc --reporter=lcov --reporter=text mocha -R spec --recursive",
     "watch:test": "nodemon --exec npm t"
   },
   "repository": {
@@ -27,26 +27,26 @@
     "express": "^4.17.1",
     "express-handlebars": "^5.2.0",
     "jsonwebtoken": "^8.5.1",
-    "knex": "^0.21.12",
+    "knex": "^0.21.13",
     "luxon": "^1.25.0",
-    "pg": "^8.4.2"
+    "pg": "^8.5.1"
   },
   "devDependencies": {
     "@types/bcrypt": "^3.0.0",
     "@types/express": "^4.17.9",
     "@types/jsonwebtoken": "^8.5.0",
     "@types/luxon": "^1.25.0",
-    "@types/node": "^14.14.6",
+    "@types/node": "^14.14.13",
     "chai": "^4.2.0",
     "db-migrate": "^0.11.11",
     "db-migrate-pg": "^1.2.2",
-    "eslint": "^7.12.1",
-    "eslint-plugin-prettier": "^3.1.4",
+    "eslint": "^7.15.0",
+    "eslint-plugin-prettier": "^3.2.0",
     "mocha": "^8.2.1",
     "mocha-eslint": "^6.0.0",
     "nodemon": "^2.0.6",
     "nyc": "^15.1.0",
-    "prettier": "^2.1.2",
-    "sinon": "^9.2.1"
+    "prettier": "^2.2.1",
+    "sinon": "^9.2.2"
   }
 }

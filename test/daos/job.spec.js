@@ -3,6 +3,7 @@ const sinon = require('sinon');
 
 const { DateTime } = require('luxon');
 const JobDao = require('../../src/daos/job');
+const { exception } = require('console');
 
 describe('Dao: Job', function () {
   describe('_JobRowtoJobData', function () {
@@ -64,6 +65,17 @@ describe('Dao: Job', function () {
 
       assert.equal(jobData.id, 1);
     });
+    it('responds null when db returns undefined', async function () {
+      const mockJobStore = {
+        fetchJobById: sinon.stub().resolves(undefined),
+      };
+
+      const dao = new JobDao(mockJobStore);
+
+      const response = await dao.fetchJobById(1);
+
+      assert.strictEqual(response, null);
+    });
   });
   describe('createJob', function () {
     it('correctly calls the createJob store method', async function () {
@@ -115,5 +127,76 @@ describe('Dao: Job', function () {
         date_posted: mockDate.toJSDate(),
       });
     });
+  });
+  describe('updateJob', function () {
+    it('correctly calls the updateJob store method', async function () {
+      const mockJobStore = {
+        updateJob: sinon.stub().returns({
+          id: 1,
+          title: '1',
+          location: '2',
+          salary: '3',
+          job_type: '4',
+          summary: '5',
+          description: '6',
+          datePosted: '2020-01-01',
+        }),
+      };
+
+      const dao = new JobDao(mockJobStore);
+
+      const jobData = await dao.updateJob(1, {
+        title: '1',
+        location: '2',
+        salary: '3',
+        jobType: '4',
+        summary: '5',
+        description: '6',
+      });
+
+      assert.deepEqual(Object.keys(jobData), [
+        'id',
+        'title',
+        'location',
+        'salary',
+        'jobType',
+        'summary',
+        'description',
+        'datePosted',
+      ]);
+
+      assert.deepEqual(mockJobStore.updateJob.getCall(0).args[1], {
+        title: '1',
+        location: '2',
+        salary: '3',
+        job_type: '4',
+        summary: '5',
+        description: '6',
+      });
+    });
+  });
+  describe('deleteJob', function () {
+    it('correctly calls the updateJob store method', async function () {
+      const mockJobStore = {
+        deleteJob: sinon.stub().resolves(),
+      };
+
+      const dao = new JobDao(mockJobStore);
+
+      await dao.deleteJob(1);
+
+      assert.equal(mockJobStore.deleteJob.getCall(0).args[0], 1);
+    }),
+      it('returns null if there is an exception', async function () {
+        const mockJobStore = {
+          deleteJob: sinon.stub().throws(exception),
+        };
+
+        const dao = new JobDao(mockJobStore);
+
+        const funcResponse = await dao.deleteJob(1);
+
+        assert.equal(funcResponse, null);
+      });
   });
 });

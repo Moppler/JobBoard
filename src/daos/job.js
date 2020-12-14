@@ -62,6 +62,9 @@ class JobDao {
    */
   async fetchJobById(jobId) {
     const jobRow = await this.JobStore.fetchJobById(jobId);
+    if (jobRow === undefined) {
+      return null;
+    }
     return this._JobRowtoJobData(jobRow);
   }
 
@@ -83,6 +86,38 @@ class JobDao {
       date_posted: jobPayload.datePosted.toJSDate(),
     });
     return this._JobRowtoJobData(jobRow);
+  }
+
+  /**
+   * Updates a job that matches the specified Id.
+   *
+   * @param {number} jobId
+   * @param {JobData} jobPayload - Details of the updated job. Not including ID or date_posted as these shouldn't change.
+   * @returns {Promise<JobData>}
+   */
+  async updateJob(jobId, jobPayload) {
+    const jobRow = await this.JobStore.updateJob(jobId, {
+      title: jobPayload.title,
+      location: jobPayload.location,
+      salary: jobPayload.salary,
+      job_type: jobPayload.jobType,
+      summary: jobPayload.summary,
+      description: jobPayload.description,
+    });
+    return this._JobRowtoJobData(jobRow);
+  }
+  /**
+   * Deletes a job that matches the specified Id.
+   *
+   * @param {number} jobId
+   * @returns {Promise<boolean|null>} True if successful. Null on error.
+   */
+  async deleteJob(jobId) {
+    try {
+      await this.JobStore.deleteJob(jobId);
+    } catch (e) {
+      return null;
+    }
   }
 }
 

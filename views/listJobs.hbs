@@ -1,11 +1,12 @@
 <div class="container mt-5">
   {{#each jobs as |job|}}
-    <div class="card card-body mb-3">
-      <div class="d-flex align-items-end mb-3">
-        <h5 class="mb-0 mr-2"><a href="/job/{{job.id}}">{{job.title}}</a></h5>
-        <p class="mb-0 text-muted small">{{job.location}} | {{job.salary}} | {{job.jobType}} | {{job.datePosted}}</p>
-      </div>
-      <p class="mb-0">{{job.summary}}</p>
+  <div class="card card-body mb-3">
+    <div class="d-flex align-items-end mb-3">
+      <h5 class="mb-0 mr-2"><a href="/job/{{job.id}}">{{job.title}}</a></h5>
+      <p class="mb-0 text-muted small">{{job.location}} | {{job.salary}} | {{job.jobType}} | {{job.datePosted}}
+      </p>
     </div>
+    <p class="mb-0">{{job.summary}}</p>
+  </div>
   {{/each}}
 </div>

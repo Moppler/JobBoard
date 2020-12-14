@@ -46,6 +46,41 @@ class JobModel {
   }
 
   /**
+   * Fetches a specific job based on the supplied job itentifier and returns an
+   * instance of the JobModel. If the job does not exist, null is returned.
+   *
+   * @param {JobData} jobDetails - Details of the job to be updated.
+   * @returns {Promise<boolean|null>} Instance of JobModel. Null on error.
+   */
+  async updateJob(jobDetails) {
+    const jobData = await this.DaoFactory.job.updateJob(this.id, jobDetails);
+    if (!jobData) return null;
+
+    this.title = jobData.title;
+    this.location = jobData.location;
+    this.salary = jobData.salary;
+    this.jobType = jobData.jobType;
+    this.summary = jobData.summary;
+    this.description = jobData.description;
+
+    return true;
+  }
+
+  /**
+   * Deletes a specific job based on the supplied job itentifier. If the job does not exist, null is returned.
+   *
+   * @returns {Promise<boolean|null>} Instance of JobModel. Null on error.
+   */
+  async deleteJob() {
+    try {
+      await this.DaoFactory.job.deleteJob(this.id);
+      return true;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  /**
    * Fetches all jobs from the system and returns new instances of the JobModel
    * for each. When there are no jobs, it returns an empty array. On error, it
    * returns null.

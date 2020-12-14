@@ -28,9 +28,17 @@ module.exports = {
     const sortedJobs = jobs.sort(
       (a, b) => b.datePosted.toMillis() - a.datePosted.toMillis()
     );
+
     return await res.status(200).render('listJobs', {
-      /** @type {JobModel[]} */
-      jobs: sortedJobs,
+      jobs: sortedJobs.map((job) => ({
+        id: job.id,
+        title: job.title,
+        location: job.location,
+        salary: job.salary,
+        jobType: job.jobType,
+        description: job.description,
+        datePosted: job.datePosted.toFormat('DDD'),
+      })),
     });
   },
 
