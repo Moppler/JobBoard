@@ -28,7 +28,7 @@
     "express-handlebars": "^5.2.0",
     "jsonwebtoken": "^8.5.1",
     "knex": "^0.21.13",
-    "luxon": "^1.25.0",
+    "luxon": "^1.28.1",
     "pg": "^8.5.1"
   },
   "devDependencies": {
